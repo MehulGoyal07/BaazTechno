@@ -5,12 +5,13 @@ export default function AboutUsSection() {
   return (
     <section className="bg-[#3d0f41] min-h-screen py-16 px-4 flex items-center">
       <div className="max-w-screen-xl mx-auto flex flex-col-reverse lg:flex-row items-center justify-between gap-12">
-        {/* Left Content */}
+        {/* Left Content */}   
         <div className="lg:w-1/2 text-center lg:text-left space-y-8">
           {/* Heading */}
           <h2 className="text-white text-4xl sm:text-5xl font-extrabold leading-tight">
             About Us
           </h2>
+          
 
           {/* Subheading */}
           <h3 className="text-[#b520a3] text-lg sm:text-2xl font-medium">

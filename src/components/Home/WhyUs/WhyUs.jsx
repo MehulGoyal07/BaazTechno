@@ -1,5 +1,5 @@
 import { FaCheckCircle } from "react-icons/fa";
-import img from "../../../assets/baaztechno.png";
+import img from "../../../assets/bg/baaztechno.png";
 
 export default function AboutUsSection() {
   return (
@@ -11,7 +11,7 @@ export default function AboutUsSection() {
           <h2 className="text-white text-4xl sm:text-5xl font-extrabold leading-tight">
             About Us
           </h2>
-          
+
 
           {/* Subheading */}
           <h3 className="text-[#b520a3] text-lg sm:text-2xl font-medium">

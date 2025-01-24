@@ -1,17 +1,28 @@
+import { motion } from 'framer-motion'; // Import Framer Motion
 import { FaCheckCircle } from "react-icons/fa";
 import img from "../../../assets/bg/baaztechno.png";
 
 export default function AboutUsSection() {
   return (
-    <section className="bg-[#3d0f41] min-h-screen py-16 px-4 flex items-center">
+    <motion.section
+      className="bg-[#3d0f41] min-h-screen py-16 px-4 flex items-center"
+      initial={{ opacity: 0 }} // Only fade in without vertical movement
+      whileInView={{ opacity: 1 }} // Fade in effect when section comes into view
+      viewport={{ once: true, amount: 0.3 }} // Trigger animation when 30% of the section is visible
+      transition={{ duration: 0.8 }} // Smooth fade-in transition
+    >
       <div className="max-w-screen-xl mx-auto flex flex-col-reverse lg:flex-row items-center justify-between gap-12">
-        {/* Left Content */}   
-        <div className="lg:w-1/2 text-center lg:text-left space-y-8">
+        {/* Left Content */}
+        <motion.div
+          className="lg:w-1/2 text-center lg:text-left space-y-8"
+          initial={{ opacity: 0 }} // Initial state (hidden)
+          whileInView={{ opacity: 1 }} // Fade in when in view
+          transition={{ duration: 1 }}
+        >
           {/* Heading */}
           <h2 className="text-white text-4xl sm:text-5xl font-extrabold leading-tight">
             About Us
           </h2>
-
 
           {/* Subheading */}
           <h3 className="text-[#b520a3] text-lg sm:text-2xl font-medium">
@@ -51,10 +62,15 @@ export default function AboutUsSection() {
               Learn More
             </button>
           </div>
-        </div>
+        </motion.div>
 
         {/* Right Content */}
-        <div className="lg:w-1/2 flex justify-center relative">
+        <motion.div
+          className="lg:w-1/2 flex justify-center relative"
+          initial={{ opacity: 0 }} // Initial state (hidden)
+          whileInView={{ opacity: 1 }} // Fade in when in view
+          transition={{ duration: 1 }}
+        >
           {/* Enlarged Blob Background */}
           <div className="absolute bg-gradient-to-r from-[#7436bb] to-[#b520a3] rounded-full w-[350px] h-[350px] sm:w-[500px] sm:h-[500px] lg:w-[600px] lg:h-[600px] blur-3xl opacity-30 z-0"></div>
 
@@ -66,8 +82,8 @@ export default function AboutUsSection() {
               className="rounded-full w-[250px] h-[250px] sm:w-[350px] sm:h-[350px] lg:w-[450px] lg:h-[450px] object-cover"
             />
           </div>
-        </div>
+        </motion.div>
       </div>
-    </section>
+    </motion.section>
   );
 }

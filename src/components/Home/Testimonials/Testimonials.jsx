@@ -1,3 +1,5 @@
+import { motion } from 'framer-motion'; // Import Framer Motion
+
 const TestimonialsSection = () => {
   // Testimonial data
   const testimonials = [
@@ -32,21 +34,25 @@ const TestimonialsSection = () => {
     >
       <h2 className="text-4xl font-bold text-center mb-8">What Our Clients Say</h2>
 
-      {/* Static Testimonials */}
+      {/* Testimonials with animation on scroll */}
       <div className="flex flex-wrap justify-center gap-8">
         {testimonials.map((testimonial, index) => (
-          <div
+          <motion.div
             key={index}
             className="min-w-[300px] mx-4 bg-[#ffffffcc] text-black rounded-lg shadow-2xl p-6"
             style={{
               boxShadow: '0 8px 30px rgba(0, 0, 0, 0.1)', // Shadow effect for depth
               backdropFilter: 'blur(10px)', // Subtle blur effect for card
             }}
+            initial={{ opacity: 0, y: 50 }}   // Start from below and with zero opacity
+            whileInView={{ opacity: 1, y: 0 }} // Animate to visible and original position
+            transition={{ duration: 0.6, delay: index * 0.2 }} // Stagger animation for each card
+            viewport={{ once: false }}   // Trigger the animation every time the card enters the viewport
           >
             <h4 className="font-semibold text-xl mb-2">{testimonial.name}</h4>
             <p className="text-sm text-gray-500 mb-4">{testimonial.location}</p>
             <p className="text-lg italic">{`"${testimonial.text}"`}</p>
-          </div>
+          </motion.div>
         ))}
       </div>
     </section>

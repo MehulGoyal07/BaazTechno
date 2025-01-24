@@ -1,13 +1,24 @@
+import { motion } from 'framer-motion'; // Import Framer Motion
 import bg from '../assets/bg/experience_bg.jpg'; // Background image
 
 const BookACallSection = () => {
   return (
-    <section
+    <motion.section
       className="flex flex-col lg:flex-row items-center justify-between bg-cover bg-center py-16 px-5"
       style={{ backgroundImage: `url(${bg})`, minHeight: '100vh' }}
+      whileInView={{ opacity: 1 }}  // Fade in when it comes into view
+      initial={{ opacity: 0 }}     // Start with 0 opacity
+      transition={{ duration: 0.8 }}
+      viewport={{ once: false }}   // Trigger the animation every time the section enters the viewport
     >
       {/* Left side with text and explanation */}
-      <div className="lg:w-1/2 text-left text-white px-6 py-8 lg:py-16 max-w-lg mx-auto">
+      <motion.div
+        className="lg:w-1/2 text-left text-white px-6 py-8 lg:py-16 max-w-lg mx-auto"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}   // Fade in when this part comes into view
+        transition={{ duration: 0.6, delay: 0.2 }}
+        viewport={{ once: false }}
+      >
         <h2 className="text-4xl font-bold mb-6 leading-tight">Book a Call with Us</h2>
         <p className="text-lg mb-6 leading-relaxed">
           Let’s schedule a quick meeting to discuss your website needs. Whether you are looking for website
@@ -18,10 +29,16 @@ const BookACallSection = () => {
           This is a no-obligation, free consultation call. We look forward to collaborating with you and bringing
           your ideas to life!
         </p>
-      </div>
+      </motion.div>
 
       {/* Right side with form to schedule a call */}
-      <div className="lg:w-1/2 bg-white shadow-xl rounded-lg p-8 w-full max-w-lg mx-auto lg:mx-0 mt-8 lg:mt-0">
+      <motion.div
+        className="lg:w-1/2 bg-white shadow-xl rounded-lg p-8 w-full max-w-lg mx-auto lg:mx-0 mt-8 lg:mt-0"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}   // Fade in when this part comes into view
+        transition={{ duration: 0.6, delay: 0.4 }}
+        viewport={{ once: false }}
+      >
         <h3 className="text-2xl font-semibold text-[#7436bb] mb-6">Schedule a Meeting</h3>
         <form action="https://your-meeting-scheduler.com" method="POST" className="space-y-6">
           <div>
@@ -71,8 +88,8 @@ const BookACallSection = () => {
             </button>
           </div>
         </form>
-      </div>
-    </section>
+      </motion.div>
+    </motion.section>
   );
 };
 

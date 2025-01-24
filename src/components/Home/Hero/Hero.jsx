@@ -1,12 +1,17 @@
+import { motion } from 'framer-motion'; // Framer Motion for animations
 import { Link } from 'react-router-dom'; // React Router for navigation
 import heroImage from '../../../assets/bg/hero.png'; // Hero overlay image
 import heroBg from '../../../assets/bg/hero_bg.png'; // Common background image
 
 export default function Hero() {
   return (
-    <section
+    <motion.section
       className="relative w-full h-screen bg-cover bg-center flex flex-col justify-center items-center text-center text-white"
       style={{ backgroundImage: `url(${heroBg})` }}
+      initial={{ opacity: 0, y: 50 }} // Initial state (hidden + slightly below)
+      whileInView={{ opacity: 1, y: 0 }} // Visible state (fade in + move up)
+      viewport={{ once: true, amount: 0.3 }} // Trigger animation when 30% is in view
+      transition={{ duration: 0.8 }} // Smooth animation
     >
       {/* Overlay hero.png image */}
       <div className="absolute inset-0 flex justify-center items-center z-0">
@@ -22,11 +27,9 @@ export default function Hero() {
         <h1 className="text-5xl sm:text-7xl font-bold mb-6 tracking-wide sm:tracking-wider">
           Digital Services
         </h1>
-        {/* Increased font size and added more letter spacing */}
         <p className="text-2xl sm:text-4xl mb-10 tracking-widest">
           Best Solutions for Your Business
         </p>
-        {/* Subheading made larger with proper letter spacing */}
         
         {/* Buttons */}
         <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-6 justify-center">
@@ -44,6 +47,6 @@ export default function Hero() {
           </Link>
         </div>
       </div>
-    </section>
+    </motion.section>
   );
 }

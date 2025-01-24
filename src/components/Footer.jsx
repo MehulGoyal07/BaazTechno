@@ -1,76 +1,113 @@
-/* eslint-disable no-unused-vars */
-import React from 'react';
 import { FaFacebookF, FaInstagram, FaLinkedinIn, FaTwitter } from 'react-icons/fa';
 
 const Footer = () => {
   return (
-    <footer className="bg-secondary text-white py-12">
-      <div className="container mx-auto px-4 grid md:grid-cols-3 gap-12">
-        {/* About Us Section */}
+    <footer
+      className="py-12 px-5 text-white"
+      style={{
+        background: 'linear-gradient(42deg, #7436bb 0.01%, #b520a3 100%)', // Footer background gradient
+      }}
+    >
+      <div className="max-w-screen-xl mx-auto grid lg:grid-cols-3 gap-12">
+        {/* Column 1: About Section */}
         <div className="space-y-6">
-          <h3 className="text-2xl font-bold text-primary">About Baazwear</h3>
-          <p className="text-lg text-white">
-            At Baazwear, we offer a wide range of trendy and high-quality clothing designed to fit every occasion. We are committed to providing comfort, style, and an exceptional shopping experience for our customers.
+          <h3 className="text-3xl font-semibold">About Us</h3>
+          <p className="text-lg">
+            We are a creative agency specializing in innovative web solutions. From website design to development and digital marketing, we make sure your brand stands out.
           </p>
+          <div className="flex space-x-6">
+            <a
+              href="https://www.facebook.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-2xl hover:text-[#e995df]"
+            >
+              <FaFacebookF />
+            </a>
+            <a
+              href="https://www.twitter.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-2xl hover:text-[#e995df]"
+            >
+              <FaTwitter />
+            </a>
+            <a
+              href="https://www.linkedin.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-2xl hover:text-[#e995df]"
+            >
+              <FaLinkedinIn />
+            </a>
+            <a
+              href="https://www.instagram.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-2xl hover:text-[#e995df]"
+            >
+              <FaInstagram />
+            </a>
+          </div>
         </div>
 
-        {/* Navigation Links */}
-        <div className="space-y-4">
-          <h3 className="text-2xl font-bold text-primary">Quick Links</h3>
-          <ul className="space-y-2">
+        {/* Column 2: Useful Links */}
+        <div className="space-y-6">
+          <h3 className="text-3xl font-semibold">Useful Links</h3>
+          <ul className="space-y-4 text-lg">
             <li>
-              <a href="/about" className="hover:text-accent transition duration-200">About Us</a>
+              <a href="#home" className="hover:text-[#e995df]">
+                Home
+              </a>
             </li>
             <li>
-              <a href="/categories" className="hover:text-accent transition duration-200">Categories</a>
+              <a href="#about" className="hover:text-[#e995df]">
+                About Us
+              </a>
             </li>
             <li>
-              <a href="/contact" className="hover:text-accent transition duration-200">Contact Us</a>
+              <a href="#services" className="hover:text-[#e995df]">
+                Services
+              </a>
             </li>
             <li>
-              <a href="/terms" className="hover:text-accent transition duration-200">Terms & Conditions</a>
+              <a href="#contact" className="hover:text-[#e995df]">
+                Contact
+              </a>
             </li>
           </ul>
         </div>
 
-        {/* Contact Section */}
+        {/* Column 3: Newsletter Subscription */}
         <div className="space-y-6">
-          <h3 className="text-2xl font-bold text-primary">Contact Us</h3>
-          <p className="text-lg text-white">
-            Feel free to reach out to us for any inquiries. We would love to hear from you.
+          <h3 className="text-3xl font-semibold">Subscribe to Our Newsletter</h3>
+          <p className="text-lg">
+            Stay updated with our latest news, offers, and web development tips. Sign up for our newsletter today!
           </p>
-          <div className="space-y-2">
-            <p className="flex items-center gap-2">
-              <span className="text-accent">📞</span>
-              <a href="tel:+1234567890" className="hover:text-accent transition duration-200">+1 234 567 890</a>
-            </p>
-            <p className="flex items-center gap-2">
-              <span className="text-accent">✉️</span>
-              <a href="mailto:baazwear@gmail.com" className="hover:text-accent transition duration-200">baazwear@gmail.com</a>
-            </p>
-          </div>
-
-          {/* Social Media Icons */}
-          <div className="flex gap-4">
-            <a href="https://www.facebook.com" className="text-accent hover:text-primary transition duration-200">
-              <FaFacebookF size={24} />
-            </a>
-            <a href="https://www.twitter.com" className="text-accent hover:text-primary transition duration-200">
-              <FaTwitter size={24} />
-            </a>
-            <a href="https://www.instagram.com" className="text-accent hover:text-primary transition duration-200">
-              <FaInstagram size={24} />
-            </a>
-            <a href="https://www.linkedin.com" className="text-accent hover:text-primary transition duration-200">
-              <FaLinkedinIn size={24} />
-            </a>
-          </div>
+          <form
+            action="#"
+            method="POST"
+            className="flex items-center space-x-4"
+          >
+            <input
+              type="email"
+              placeholder="Enter your email"
+              className="w-2/3 p-3 rounded-lg focus:outline-none text-black"
+              required
+            />
+            <button
+              type="submit"
+              className="py-3 px-6 bg-[#b261a8] text-white rounded-lg font-semibold transition duration-300 hover:bg-[#7436bb]"
+            >
+              Subscribe
+            </button>
+          </form>
         </div>
       </div>
 
-      {/* Footer Bottom */}
-      <div className="bg-secondary text-white text-center py-4 mt-12">
-        <p className="text-sm">&copy; 2024 Baazwear. All rights reserved.</p>
+      {/* Footer Bottom Section */}
+      <div className="mt-12 text-center text-lg">
+        <p>&copy; 2025 BaazTechno. All rights reserved.</p>
       </div>
     </footer>
   );

@@ -1,12 +1,13 @@
 /* eslint-disable no-unused-vars */
 import React from 'react'
+import BookCall from '../components/BookCall'
 import Footer from '../components/Footer'
-import ContactUs from '../components/Home/ContactUs/ContactUs'
 import Hero from '../components/Home/Hero/Hero'
 import Testimonials from '../components/Home/Testimonials/Testimonials'
 import WhyChooseUs from '../components/Home/WhyUs/WhyUs'
 import Navbar from '../components/Navbar'
 import Portfolio from '../components/Portfolio'
+import Prizes from '../components/Prizes'
 
 const Home = () => {
   return (
@@ -15,7 +16,8 @@ const Home = () => {
       <Hero/>
       <WhyChooseUs/>
       <Portfolio/>
-      <ContactUs/>
+      <Prizes/>
+      <BookCall/>
       <Testimonials/>
       <Footer/>
     </>

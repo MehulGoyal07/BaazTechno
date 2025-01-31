@@ -52,7 +52,7 @@ export default function Navbar() {
         {/* Center: Nav Links */}
         <div className="hidden md:flex space-x-6 text-white text-lg items-center">
           <Link
-            to="/home"
+            to="/"
             className="flex items-center space-x-2 hover:text-yellow-500 transition"
           >
             <FaHome />
@@ -108,7 +108,7 @@ export default function Navbar() {
       >
         <nav className="flex flex-col space-y-6 text-lg p-8">
           <Link
-            to="/home"
+            to="/"
             className="flex items-center space-x-2 hover:text-yellow-500 transition"
             onClick={() => setIsOpen(false)}
           >

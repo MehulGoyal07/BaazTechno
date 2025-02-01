@@ -5,6 +5,10 @@ import heroBg from '../assets/bg/hero_bg.png';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const handleHomeClick = () => {
+    setIsOpen(false);
+    window.location.href = "/";
+  };
 
   return (
     <header
@@ -13,8 +17,11 @@ export default function Navbar() {
     >
       <div className="container mx-auto px-6 flex justify-between items-center h-16">
         {/* Left: Logo */}
-        <div className="text-2xl text-white font-bold">
-          <Link to="/">Baaztechno</Link>
+        <div className="text-2xl font-bold">
+          <Link to="/" onClick={handleHomeClick} className="flex items-center">
+            <span className="text-yellow-400">Baaz</span>
+            <span className="text-white">Techno</span>
+          </Link>
         </div>
 
         {/* Mobile Menu Icon */}
@@ -52,7 +59,7 @@ export default function Navbar() {
         {/* Center: Nav Links */}
         <div className="hidden md:flex space-x-6 text-white text-lg items-center">
           <Link
-            to="/"
+            to="/" onClick={handleHomeClick}
             className="flex items-center space-x-2 hover:text-yellow-500 transition"
           >
             <FaHome />
@@ -89,13 +96,12 @@ export default function Navbar() {
         </div>
 
         {/* Right: Contact Info */}
-        <div className="hidden md:flex text-white items-center space-x-2">
-          <span>Contact Us:</span>
+        <div className="hidden md:flex items-center">
           <a
             href="tel:+1234567890"
-            className="hover:text-yellow-500 transition"
+            className="bg-yellow-400 text-gray-900 px-4 py-2 rounded-full font-medium hover:bg-yellow-300 transition duration-300"
           >
-            +1 234 567 890
+            Contact Us : +1234567890
           </a>
         </div>
       </div>
@@ -148,12 +154,6 @@ export default function Navbar() {
             <span>Contact</span>
           </Link>
         </nav>
-        {/* <button
-          onClick={() => setIsOpen(false)}
-          className="absolute top-4 right-4 text-white focus:outline-none"
-        >
-          X
-        </button> */}
       </div>
     </header>
   );

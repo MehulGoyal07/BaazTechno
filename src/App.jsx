@@ -7,6 +7,7 @@ import Categories from "./pages/Categories"
 import Contact from './pages/Contact'
 import Home from './pages/Home'
 import Terms from './pages/Terms&Conditions'
+import Portfolio from './pages/Portfolio'
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route path='/categories' element={<Categories/>}/>
           <Route path='/contact' element={<Contact/>}/>
           <Route path='/terms' element={<Terms/>}/>
+          <Route path='/Portfolio' element={<Portfolio/>}/>
         </Routes>
       </BrowserRouter>
     </>

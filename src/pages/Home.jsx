@@ -6,7 +6,7 @@ import Hero from '../components/Home/Hero/Hero'
 import Testimonials from '../components/Home/Testimonials/Testimonials'
 import WhyChooseUs from '../components/Home/WhyUs/WhyUs'
 import Navbar from '../components/Navbar'
-import Portfolio from '../components/Portfolio'
+import Portfolio from '../components/PortfolioSection'
 import Prizes from '../components/Prizes'
 
 const Home = () => {

@@ -1,6 +1,6 @@
 import React from 'react'
-import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
+import Navbar from '../components/Navbar'
 import PortfolioMain from '../components/Portfolio/PortfolioMain'
 import Process from '../components/Portfolio/Process'
 import VideoShowcase from '../components/Portfolio/VideoShowcases'

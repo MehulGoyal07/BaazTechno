@@ -6,7 +6,8 @@ import Hero from '../components/Home/Hero/Hero'
 import Testimonials from '../components/Home/Testimonials/Testimonials'
 import WhyChooseUs from '../components/Home/WhyUs/WhyUs'
 import Navbar from '../components/Navbar'
-import Portfolio from '../components/PortfolioSection'
+// import Portfolio from '../components/PortfolioSection'
+import PortfolioMain from '../components/Portfolio/PortfolioMain'
 import Prizes from '../components/Prizes'
 
 const Home = () => {
@@ -15,7 +16,8 @@ const Home = () => {
       <Navbar/>
       <Hero/>
       <WhyChooseUs/>
-      <Portfolio/>
+      {/* <Portfolio/> */}
+      <PortfolioMain/>
       <Prizes/>
       <BookCall/>
       <Testimonials/>

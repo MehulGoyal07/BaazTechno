@@ -34,13 +34,13 @@ export default function Hero() {
         {/* Buttons */}
         <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-6 justify-center">
           <Link
-            to="/quote"
+            to="/contact"
             className="bg-yellow-500 text-black px-10 py-4 rounded-full hover:bg-yellow-600 transition-all duration-200 text-center text-lg sm:text-xl tracking-wide"
           >
             Get Quote
           </Link>
           <Link
-            to="/discover"
+            to="/Portfolio"
             className="bg-transparent border-2 border-yellow-500 text-yellow-500 px-10 py-4 rounded-full hover:bg-yellow-600 hover:text-black transition-all duration-200 text-center text-lg sm:text-xl tracking-wide"
           >
             Discover More

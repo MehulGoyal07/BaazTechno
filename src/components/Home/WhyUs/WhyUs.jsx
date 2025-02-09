@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion'; // Import Framer Motion
 import { FaCheckCircle } from "react-icons/fa";
+import { Link } from 'react-router-dom';
 import img from "../../../assets/bg/baaztechno.png";
-
 export default function AboutUsSection() {
   return (
     <motion.section
@@ -55,12 +55,16 @@ export default function AboutUsSection() {
 
           {/* Buttons */}
           <div className="flex justify-center lg:justify-start space-x-6">
-            <button className="bg-[#7436bb] hover:bg-[#b520a3] text-white font-semibold py-3 px-8 rounded-lg shadow-md transition duration-300">
-              Get Quote
-            </button>
-            <button className="bg-[#b520a3] hover:bg-[#7436bb] text-white font-semibold py-3 px-8 rounded-lg shadow-md transition duration-300">
-              Learn More
-            </button>
+            <Link to="/contact">
+              <button className="bg-[#7436bb] hover:bg-[#b520a3] text-white font-semibold py-3 px-8 rounded-lg shadow-md transition duration-300">
+                Get Quote
+              </button>
+            </Link>
+            <Link to="/Portfolio">
+              <button className="bg-[#b520a3] hover:bg-[#7436bb] text-white font-semibold py-3 px-8 rounded-lg shadow-md transition duration-300">
+                Learn More
+              </button>
+            </Link>
           </div>
         </motion.div>
 

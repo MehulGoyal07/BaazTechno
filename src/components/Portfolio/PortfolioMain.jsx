@@ -1,49 +1,258 @@
 import { motion } from 'framer-motion';
 import { useState } from 'react';
-import { FaCode, FaDesktop, FaMobileAlt, FaPalette } from 'react-icons/fa';
+import { FaShoppingCart, FaWordpress, FaHome, FaNewspaper, FaBriefcase, FaChartLine, FaHeart, FaDesktop } from 'react-icons/fa';
+import puneeventsimg from '../../assets/portfolio/puneevents2.png';
+import punecitymarathonimg from '../../assets/portfolio/punecitymarathon.png';
+import geckomonacoimg from '../../assets/portfolio/geckomonaco2.png';
+import flowerauraimg from '../../assets/portfolio/FlowerAura.png';
+import bakingoimg from '../../assets/portfolio/Bakingo.png';
+import indyaimg from '../../assets/portfolio/Indya.png';
+import bellepropertyimg from '../../assets/portfolio/RealEstate/BelleProperty.png';
+import harcourtsimg from '../../assets/portfolio/RealEstate/HarCourts.png';
+import realtorcaimg from '../../assets/portfolio/RealEstate/RealtorCA.png';
+import siteworksimg from '../../assets/portfolio/RealEstate/SiteWorksRealEstate.png';
+import windermereimg from '../../assets/portfolio/RealEstate/WinderMereRealEstate.png';
+import bartletttreeimg from '../../assets/portfolio/WordPress/BartlettTreeExperts.png';
+import daveyimg from '../../assets/portfolio/WordPress/Davey.png';
+import thebromaimg from '../../assets/portfolio/WordPress/thebroma.png';
+import thechocolateroomimg from '../../assets/portfolio/WordPress/TheChocolateRoom.png';
+import treedoctorusaimg from '../../assets/portfolio/WordPress/TreeDoctorUSA.png';
+import treeservicesmarketingimg from '../../assets/portfolio/WordPress/TreeServicesMarketing.png';
+import kahiimg from '../../assets/portfolio/Classified/kahi.png';
+import aqubiximg from '../../assets/portfolio/Consulting/AquBix.png';
+import futurelinkconsulatntsimg from '../../assets/portfolio/Consulting/futurelinkconsultants.png';
+import pacasiaimg from '../../assets/portfolio/Consulting/PacAsia.png';
+import zinnovimg from '../../assets/portfolio/Consulting/Zinnov.png';
+import zsimg from '../../assets/portfolio/Consulting/zs.png';
+import lavalifeimg from '../../assets/portfolio/Matrimonial/LavaLife.png';
+import nrishaadiimg from '../../assets/portfolio/Matrimonial/NriShaadi.png';
+import seekingimg from '../../assets/portfolio/Matrimonial/Seeking.png';
+import arcelormittalimg from '../../assets/portfolio/Business/arcelormittal.png';
+import autolivimg from '../../assets/portfolio/Business/AutoLiv.png';
+import boeingimg from '../../assets/portfolio/Business/Boeing.png';
+import lonzaimg from '../../assets/portfolio/Business/Lonza.png';
+import syngentaimg from '../../assets/portfolio/Business/Syngenta.png';
+import thomsonreutersimg from '../../assets/portfolio/Business/Thomson Reuters.png';
+
 
 const PortfolioSection = () => {
   const categories = [
     { id: 'all', label: 'All Projects', icon: <FaDesktop /> },
-    { id: 'web', label: 'Web Development', icon: <FaCode /> },
-    { id: 'mobile', label: 'Mobile Apps', icon: <FaMobileAlt /> },
-    { id: 'design', label: 'UI/UX Design', icon: <FaPalette /> },
+    { id: 'ecommerce', label: 'ECommerce', icon: <FaShoppingCart /> },
+    { id: 'wordpress', label: 'WordPress', icon: <FaWordpress /> },
+    { id: 'real-estate', label: 'Real Estate', icon: <FaHome /> },
+    { id: 'classified', label: 'Classified', icon: <FaNewspaper /> },
+    { id: 'consulting', label: 'Consulting', icon: <FaBriefcase /> },
+    { id: 'business', label: 'Business', icon: <FaChartLine /> },
+    { id: 'matrimonial', label: 'Matrimonial', icon: <FaHeart /> },
   ];
 
   const projects = {
     all: [
       {
-        title: "E-Commerce Platform",
-        category: "Web Development",
-        image: "https://images.unsplash.com/photo-1661956602116-aa6865609028?ixlib=rb-4.0.3&auto=format&fit=crop&w=764&q=80",
+        title: "Pune Events",
+        category: "ECommerce",
+        image: puneeventsimg,
+        tech: ["HTML", "CSS", "JavaScript"],
+      },
+      {
+        title: "Pune City Marathon",
+        category: "Business",
+        image: punecitymarathonimg,
+        tech: ["HTML", "CSS", "JavaScript"],
+      },
+      {
+        title: "Gecko Monaco",
+        category: "ECommerce",
+        image: geckomonacoimg,
+        tech: ["HTML", "CSS", "JavaScript"],
+      },
+      {
+        title: "Indya",
+        category: "ECommerce",
+        image: indyaimg,
+        tech: ["Next.js", "Stripe", "GraphQL"],
+      },
+      {
+        title: "Bakingo",
+        category: "ECommerce",
+        image: bakingoimg,
+        tech: ["WordPress", "PHP"],
+      },
+      {
+        title: "Flower Aura",
+        category: "ECommerce",
+        image: flowerauraimg,
+        tech: ["React", "Node.js"],
+      },
+      {
+        title: "Belle Property",
+        category: "Real Estate",
+        image: bellepropertyimg,
+        tech: ["React", "Node.js"],
+      },
+      {
+        title: "Har Courts Real Estate",
+        category: "Real Estate",
+        image: harcourtsimg,
+        tech: ["React", "Node.js"],
+      },
+      {
+        title: "Realtor CA",
+        category: "Real Estate",
+        image: realtorcaimg,
+        tech: ["React", "Node.js"],
+      },
+      {
+        title: "Site Works Real Estate",
+        category: "Real Estate",
+        image: siteworksimg,
+        tech: ["React", "Node.js"],
+      },
+      {
+        title: "Winder Mere Realtor",
+        category: "Real Estate",
+        image: windermereimg,
+        tech: ["React", "Node.js"],
+      },
+      {
+        title: "Bartlett Tree Experts",
+        category: "WordPress",
+        image: bartletttreeimg,
+        tech: ["WordPress", "MySQL"],
+      },
+      {
+        title: "Davey",
+        category: "WordPress",
+        image: daveyimg,
+        tech: ["WordPress", "MySQL"],
+      },
+      {
+        title: "The Broma",
+        category: "WordPress",
+        image: thebromaimg,
+        tech: ["WordPress", "MySQL"],
+      },
+      {
+        title: "The Chocolate Room",
+        category: "WordPress",
+        image: thechocolateroomimg,
+        tech: ["WordPress", "MySQL"],
+      },
+      {
+        title: "Tree Doctor USA",
+        category: "WordPress",
+        image: treedoctorusaimg,
+        tech: ["WordPress", "MySQL"],
+      },
+      {
+        title: "Tree Services Marketing",
+        category: "WordPress",
+        image: treeservicesmarketingimg,
+        tech: ["WordPress", "Elasticsearch"],
+      },
+      {
+        title: "Kahi.in",
+        category: "Classified",
+        image: kahiimg,
+        tech: ["Laravel", "MySQL"],
+      },
+      {
+        title: "AquBix",
+        category: "Consulting",
+        image: aqubiximg,
+        tech: ["Laravel", "MySQL"],
+      },
+      {
+        title: "Future Link Consultants",
+        category: "Consulting",
+        image: futurelinkconsulatntsimg,
+        tech: ["Django", "Python", "PostGreSQL"],
+      },
+      {
+        title: "PacAsia",
+        category: "Consulting",
+        image: pacasiaimg,
+        tech: ["Express.js", "MongoDB", "GraphQL"],
+      },
+      {
+        title: "Zinnov",
+        category: "Consulting",
+        image: zinnovimg,
+        tech: ["Laravel", "MySQL", "Redis"],
+      },
+      {
+        title: "ZS",
+        category: "Consulting",
+        image: zsimg,
+        tech: ["Laravel", "MySQL","Flask"],
+      },
+      {
+        title: "LavaLife",
+        category: "Matrimonial",
+        image: lavalifeimg,
+        tech: ["Laravel", "MySQL"],
+      },
+      {
+        title: "Nri Shaadi",
+        category: "Matrimonial",
+        image: nrishaadiimg,
         tech: ["React", "Node.js", "MongoDB"],
       },
       {
-        title: "Fitness Tracking App",
-        category: "Mobile Apps",
-        image: "https://images.unsplash.com/photo-1674574124649-778f9afc0e9c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1170&q=80",
-        tech: ["React Native", "Firebase"],
+        title: "Seeking",
+        category: "Matrimonial",
+        image: seekingimg,
+        tech: ["HTML", "CSS", "Javascript"],
       },
       {
-        title: "Banking Dashboard",
-        category: "UI/UX Design",
-        image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=1170&q=80",
-        tech: ["Figma", "Adobe XD"],
+        title: "Arcelor Mittal",
+        category: "Business",
+        image: arcelormittalimg,
+        tech: ["Angular", "Typescript", "MongoDB"],
       },
       {
-        title: "Social Media Platform",
-        category: "Web Development",
-        image: "https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=1170&q=80",
-        tech: ["Next.js", "GraphQL"],
+        title: "AutoLiv",
+        category: "Business",
+        image: autolivimg,
+        tech: ["Laravel", "PostgreSQL","Redis"],
+      },
+      {
+        title: "Boeing",
+        category: "Business",
+        image: boeingimg,
+        tech: ["React","Node.js", "MySQL"],
+      },
+      {
+        title: "Lonza",
+        category: "Business",
+        image: lonzaimg,
+        tech: ["Vue.js", "GraphQL"],
+      },
+      {
+        title: "Syngenta",
+        category: "Business",
+        image: syngentaimg,
+        tech: ["React", "Node.js", "Redis"],
+      },
+      {
+        title: "Thomson Reuters",
+        category: "Business",
+        image: thomsonreutersimg,
+        tech: ["TailWindCSS", "React"],
       },
     ],
   };
 
-  projects.web = projects.all.filter(p => p.category === "Web Development");
-  projects.mobile = projects.all.filter(p => p.category === "Mobile Apps");
-  projects.design = projects.all.filter(p => p.category === "UI/UX Design");
+  projects.ecommerce = projects.all.filter(p => p.category === "ECommerce");
+  projects.wordpress = projects.all.filter(p => p.category === "WordPress");
+  projects["real-estate"] = projects.all.filter(p => p.category === "Real Estate");
+  projects.classified = projects.all.filter(p => p.category === "Classified");
+  projects.consulting = projects.all.filter(p => p.category === "Consulting");
+  projects.business = projects.all.filter(p => p.category === "Business");
+  projects.matrimonial = projects.all.filter(p => p.category === "Matrimonial");
 
-  const [activeCategory, setActiveCategory] = useState('all');
+  const [activeCategory, setActiveCategory] = useState('wordpress');
   const [hoveredProject, setHoveredProject] = useState(null);
 
   return (

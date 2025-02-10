@@ -7,10 +7,10 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import { Autoplay, Navigation, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import vipulsharmaimg from '../../../assets/Testimonials/Vipul_Sharma.jpg';
+import divyanshuimg from '../../../assets/Testimonials/Divyanshu.jpg';
 import nikunjvermaimg from '../../../assets/Testimonials/Nikunj_Verma.jpg';
 import pratikmunderimg from '../../../assets/Testimonials/Pratik_Munder.jpg';
-import divyanshuimg from '../../../assets/Testimonials/Divyanshu.jpg';
+import vipulsharmaimg from '../../../assets/Testimonials/Vipul_Sharma.jpg';
 const TestimonialsSection = () => {
   // Initialize AOS
   useEffect(() => {
@@ -23,29 +23,29 @@ const TestimonialsSection = () => {
   // Testimonial data
   const testimonials = [
     {
-      name: 'Vipul Sharma',
-      location: 'New Delhi, India',
-      text: 'BaazTechno developed a custom React-based race bib management dashboard for us, and it’s been a lifesaver! The system is intuitive, efficient, and has streamlined our operations. Their technical skills and dedication are unmatched. Highly recommend!',
+      name: 'Divyanshu',
+      location: 'Rajasthan, India',
+      text: 'Working with BaazTechno on our Shopify store was a game-changer! They delivered a sleek, high-performing e-commerce site that boosted our sales. Their attention to detail and quick turnaround made the entire process stress-free.',
       image: vipulsharmaimg, // Replace with actual image URL
       rating: 5,
     },
     {
-      name: 'Divyanshu',
-      location: 'Mumbai, India',
-      text: 'Working with BaazTechno on our Shopify store was a game-changer! They delivered a sleek, high-performing e-commerce site that boosted our sales. Their attention to detail and quick turnaround made the entire process stress-free.',
+      name: 'Vipul Sharma',
+      location: 'Pune, India',
+      text: 'BaazTechno developed a custom React-based race bib management dashboard for us, and it’s been a lifesaver! The system is intuitive, efficient, and has streamlined our operations. Their technical skills and dedication are unmatched. Highly recommend!',
       image: divyanshuimg, // Replace with actual image URL
       rating: 4.5,
     },
     {
       name: 'Nikunj Verma',
-      location: 'Bangalore, India',
+      location: 'Zurich, Switzerland',
       text: 'BaazTechno transformed our outdated website into a modern, user-friendly platform. Their WordPress expertise ensured seamless functionality and stunning design. Highly recommend their team for anyone looking to elevate their online presence!',
       image: nikunjvermaimg, // Replace with actual image URL
       rating: 5,
     },
     {
       name: 'Pratik Munder',
-      location: 'Chennai, India',
+      location: 'Pune, India',
       text: 'BaazTechno built our e-commerce platform from scratch, and the results have been phenomenal. The site is fast, secure, and easy to manage. Their team went above and beyond to ensure our business needs were met. Truly exceptional service!',
       image: pratikmunderimg, // Replace with actual image URL
       rating: 4,

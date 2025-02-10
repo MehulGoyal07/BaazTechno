@@ -98,10 +98,10 @@ export default function Navbar() {
         {/* Right: Contact Info */}
         <div className="hidden md:flex items-center">
           <a
-            href="tel:+1234567890"
+            href="mailto:baaztechno@gmail.com?subject=Enquiry&body=Hello!I want to discuss something!"
             className="bg-yellow-400 text-gray-900 px-4 py-2 rounded-full font-medium hover:bg-yellow-300 transition duration-300"
           >
-            Contact Us : +1234567890
+            Contact Us : baaztechno@gmail.com
           </a>
         </div>
       </div>

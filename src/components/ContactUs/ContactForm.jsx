@@ -1,9 +1,50 @@
+import { useState } from "react";
 import { FaUser, FaEnvelope, FaBuilding, FaPhone } from "react-icons/fa";
 import { motion } from "framer-motion";
 import bgimage from "../../assets/bg/hero_bg.png"; // existing bg image
 
-
 export default function ContactForm() {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    business: "",
+    phone: "",
+  });
+
+  const [message, setMessage] = useState(""); // Success/Error messages
+
+  // Handle input changes
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  // Handle form submission
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setMessage(""); // Clear previous messages
+
+    try {
+      const response = await fetch(
+        "https://backendemail-bp1dos9mp-amber305s-projects.vercel.app/send-email",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(formData),
+        }
+      );
+
+      const data = await response.json();
+      if (response.ok) {
+        setMessage("Your message has been sent successfully!");
+        setFormData({ name: "", email: "", business: "", phone: "" }); // Clear form
+      } else {
+        setMessage(`Error: ${data.error}`);
+      }
+    } catch (error) {
+      setMessage("Failed to send message. Please try again.");
+    }
+  };
+
   return (
     <div
       className="flex flex-col items-center justify-center min-h-screen bg-cover bg-center px-4"
@@ -36,9 +77,12 @@ export default function ContactForm() {
         transition={{ duration: 0.8 }}
       >
         <h2 className="text-xl font-semibold text-gray-100 text-center">Send us a Message</h2>
-        
-        <form className="mt-4 space-y-4">
-          {/* Name Input with Framer Motion */}
+
+        {/* Success/Error Message */}
+        {message && <p className="mt-4 text-center text-green-500">{message}</p>}
+
+        <form className="mt-4 space-y-4" onSubmit={handleSubmit}>
+          {/* Name Input */}
           <motion.div
             className="relative flex items-center transition-transform transform hover:scale-105"
             initial={{ opacity: 0 }}
@@ -48,12 +92,16 @@ export default function ContactForm() {
             <FaUser className="absolute left-3 text-gray-500" />
             <input
               type="text"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
               placeholder="Enter your name"
               className="w-full pl-10 p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all"
+              required
             />
           </motion.div>
 
-          {/* Email Input with Framer Motion */}
+          {/* Email Input */}
           <motion.div
             className="relative flex items-center transition-transform transform hover:scale-105"
             initial={{ opacity: 0 }}
@@ -63,12 +111,16 @@ export default function ContactForm() {
             <FaEnvelope className="absolute left-3 text-gray-500" />
             <input
               type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
               placeholder="Enter your email"
               className="w-full pl-10 p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all"
+              required
             />
           </motion.div>
 
-          {/* Business Name Input with Framer Motion */}
+          {/* Business Name Input */}
           <motion.div
             className="relative flex items-center transition-transform transform hover:scale-105"
             initial={{ opacity: 0 }}
@@ -78,12 +130,16 @@ export default function ContactForm() {
             <FaBuilding className="absolute left-3 text-gray-500" />
             <input
               type="text"
+              name="business"
+              value={formData.business}
+              onChange={handleChange}
               placeholder="Business name"
               className="w-full pl-10 p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all"
+              required
             />
           </motion.div>
 
-          {/* Phone Number Input with Framer Motion */}
+          {/* Phone Number Input */}
           <motion.div
             className="relative flex items-center transition-transform transform hover:scale-105"
             initial={{ opacity: 0 }}
@@ -93,12 +149,16 @@ export default function ContactForm() {
             <FaPhone className="absolute left-3 text-gray-500" />
             <input
               type="tel"
+              name="phone"
+              value={formData.phone}
+              onChange={handleChange}
               placeholder="Phone number"
               className="w-full pl-10 p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all"
+              required
             />
           </motion.div>
 
-          {/* Submit Button with Framer Motion */}
+          {/* Submit Button */}
           <motion.button
             type="submit"
             className="w-full bg-purple-500 text-white py-3 rounded-lg font-medium hover:bg-purple-400 transition duration-300 transform hover:scale-105"

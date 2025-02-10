@@ -8,7 +8,7 @@ import boeingimg from '../../assets/portfolio/Business/Boeing.png';
 import lonzaimg from '../../assets/portfolio/Business/Lonza.png';
 import syngentaimg from '../../assets/portfolio/Business/Syngenta.png';
 import thomsonreutersimg from '../../assets/portfolio/Business/ThomsonReuters.png';
-import kahiimg from '../../assets/portfolio/Classified/kahi.png';
+import kahiimg from '../../assets/portfolio/Classified/Kahi.png';
 import aqubiximg from '../../assets/portfolio/Consulting/AquBix.png';
 import futurelinkconsulatntsimg from '../../assets/portfolio/Consulting/FutureLinkConsultants.png';
 import pacasiaimg from '../../assets/portfolio/Consulting/PacAsia.png';

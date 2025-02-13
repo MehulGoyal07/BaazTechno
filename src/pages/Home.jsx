@@ -8,7 +8,7 @@ import WhyChooseUs from '../components/Home/WhyUs/WhyUs'
 import Navbar from '../components/Navbar'
 // import Portfolio from '../components/PortfolioSection'
 import Clients from '../components/Home/OurClients/Clients'
-import Projects from '../components/Home/ProjectsCompleted/Projects'
+// import Projects from '../components/Home/ProjectsCompleted/Projects'
 import PortfolioMain from '../components/Portfolio/PortfolioMain'
 import Prizes from '../components/Prizes'
 
@@ -22,7 +22,7 @@ const Home = () => {
       <PortfolioMain/>
       <Prizes/>
       <BookCall/>
-      <Projects/>
+      {/*<Projects/>*/}
       <Clients/>
       <Testimonials/>
       <Footer/>

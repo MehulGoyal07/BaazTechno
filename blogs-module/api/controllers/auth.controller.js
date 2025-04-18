@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import bcryptjs from "bcryptjs";
 import User from "../models/user.model.js";
 import errorHandler from "../utils/error.js";
@@ -23,4 +24,8 @@ export const signup = async(req, res, next) => {
     } catch (error) {
         next(error);
     }
+}
+
+export const signin = async(req, res, next) => {
+
 }

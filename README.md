@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="./src/assets/logo.png" alt="BaazTechno Logo" width="200" height="60" style="margin-bottom:20px">
+  <img src="./blogs-module/client/src/assets/baaztechno.png" alt="BaazTechno Logo" width="200" height="100" style="margin-bottom:20px">
   
   # 🚀 BaazTechno Blogs Platform
 

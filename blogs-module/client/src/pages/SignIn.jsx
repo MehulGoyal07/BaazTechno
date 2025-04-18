@@ -3,6 +3,7 @@ import { FaArrowRight, FaCheckCircle, FaEnvelope, FaLock } from 'react-icons/fa'
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import CompanyLogo from '../assets/baaztechno.png';
+import OAuth from '../components/OAuth';
 import { signInFailure, signInStart, signInSuccess } from '../redux/user/userSlice';
 
 export default function SignIn() {
@@ -227,6 +228,7 @@ export default function SignIn() {
                     </>
                   )}
                 </button>
+                <OAuth />
               </form>
 
               <div className="mt-6 text-center">

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { FaArrowRight, FaCheckCircle, FaEnvelope, FaLock, FaUser } from 'react-icons/fa';
 import { Link, useNavigate } from 'react-router-dom';
 import CompanyLogo from '../assets/baaztechno.png';
+import OAuth from '../components/OAuth';
 
 export default function SignUp() {
   const [formData, setFormData] = useState({
@@ -274,6 +275,7 @@ export default function SignUp() {
                     </>
                   )}
                 </button>
+                <OAuth />
               </form>
 
               <div className="mt-6 text-center">

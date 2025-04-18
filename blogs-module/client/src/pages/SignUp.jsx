@@ -280,7 +280,7 @@ export default function SignUp() {
                 <p className="text-gray-500 dark:text-gray-400 text-sm">
                   Already have an account?{' '}
                   <Link
-                    to="/login"
+                    to="/sign-in"
                     className="text-primary hover:text-primary-600 font-medium transition-colors"
                   >
                     Sign In

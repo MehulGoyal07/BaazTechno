@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
 import Footer from './components/Footer';
 import Header from './components/Header';
+import ScrollToTop from './components/ScrollToTop';
 import About from './pages/About';
 import Dashboard from './pages/Dashboard';
 import Home from './pages/Home';
@@ -13,6 +14,7 @@ import SignUp from './pages/SignUp';
 function App() {
   return (
     <BrowserRouter>
+    <ScrollToTop/>
     <Header/>
     <Routes>
       <Route path="/" element={<Home />} />

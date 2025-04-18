@@ -1,15 +1,20 @@
-import { useEffect, useState } from 'react';
-import { AiOutlineClose, AiOutlineSearch } from 'react-icons/ai';
-import { Link, useLocation } from 'react-router-dom';
-import companyLogo from '../assets/baaztechno.png';
+import { useEffect, useState } from "react";
+import { AiOutlineClose, AiOutlineSearch, AiOutlineUser } from "react-icons/ai";
+import { FiChevronDown } from "react-icons/fi";
+import { useSelector } from "react-redux";
+import { Link, useLocation } from "react-router-dom";
+import companyLogo from "../assets/baaztechno.png";
 
 const Header = () => {
   const location = useLocation();
+  const { currentUser } = useSelector((state) => state.user);
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const toggleMenu = () => setIsOpen(!isOpen);
+  const toggleDropdown = () => setDropdownOpen(!dropdownOpen);
 
   // Close mobile menu when route changes
   useEffect(() => {
@@ -17,40 +22,53 @@ const Header = () => {
     setSearchOpen(false);
   }, [location]);
 
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownOpen && !event.target.closest('.user-dropdown')) {
+        setDropdownOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [dropdownOpen]);
+
   // Add scroll effect
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 10);
     };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const navLinks = [
-    { path: '/', label: 'Home' },
-    { path: '/about', label: 'About' },
-    { path: '/projects', label: 'Projects' },
+    { path: "/", label: "Home" },
+    { path: "/about", label: "About" },
+    { path: "/projects", label: "Projects" },
   ];
 
   return (
-    <header className={`sticky top-0 z-50 transition-all duration-300 ${
-      scrolled 
-        ? 'bg-darkBackground/95 shadow-md backdrop-blur-sm' 
-        : 'bg-darkBackground'
-    } border-b border-gray-800`}>
+    <header
+      className={`sticky top-0 z-50 transition-all duration-300 ${
+        scrolled
+          ? "bg-darkBackground/95 shadow-md backdrop-blur-sm"
+          : "bg-darkBackground"
+      } border-b border-gray-800`}
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
           {/* Logo and Desktop Navigation */}
           <div className="flex items-center">
-            {/* Logo - Made more prominent */}
-            <Link 
-              to="/" 
+            {/* Logo */}
+            <Link
+              to="/"
               className="flex items-center group hover:scale-105 transition-transform duration-200"
             >
-              <img 
-                src={companyLogo} 
-                alt="BaazTechno Logo" 
-                className="h-12 w-auto"  // Increased height for better visibility
+              <img
+                src={companyLogo}
+                alt="BaazTechno Logo"
+                className="h-12 w-auto"
               />
               <span className="ml-3 text-xl font-semibold text-primary">
                 Blogs
@@ -65,13 +83,13 @@ const Header = () => {
                   to={link.path}
                   className={`relative py-2 text-base font-medium transition-colors duration-200 ${
                     location.pathname === link.path
-                      ? 'text-primary'
-                      : 'text-muted hover:text-primary'
+                      ? "text-primary"
+                      : "text-muted hover:text-primary"
                   }`}
                 >
                   {link.label}
                   {location.pathname === link.path && (
-                    <span className="absolute bottom-0 left-0 w-full h-0.5 bg-primary"></span>
+                    <span className="absolute bottom-0 left-0 w-full h-0.5 bg-primary transition-all duration-300"></span>
                   )}
                 </Link>
               ))}
@@ -101,13 +119,60 @@ const Header = () => {
               <AiOutlineSearch className="h-6 w-6" />
             </button>
 
-            {/* Sign In Button */}
-            <Link
-              to="/sign-in"
-              className="hidden sm:inline-flex items-center px-5 py-2.5 text-sm font-medium rounded-md text-darkBackground bg-primary hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary transition-all duration-200 hover:scale-105 active:scale-95"
-            >
-              Sign In
-            </Link>
+            {/* User dropdown or Sign In */}
+            {currentUser ? (
+              <div className="relative user-dropdown">
+                <button
+                  onClick={toggleDropdown}
+                  className="flex items-center space-x-2 focus:outline-none"
+                  aria-label="User menu"
+                >
+                  <div className="w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center overflow-hidden border border-primary/20">
+                    {currentUser.profilePicture ? (
+                      <img 
+                        src={currentUser.profilePicture} 
+                        alt="Profile" 
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <AiOutlineUser className="text-primary w-5 h-5" />
+                    )}
+                  </div>
+                  <FiChevronDown className={`text-muted transition-transform duration-200 ${dropdownOpen ? 'rotate-180' : ''}`} />
+                </button>
+
+                {dropdownOpen && (
+                  <div className="absolute right-0 mt-2 w-56 origin-top-right bg-darkBackground border border-gray-700 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none z-50">
+                    <div className="py-1">
+                      <div className="px-4 py-3 border-b border-gray-700">
+                        <p className="text-sm text-primary font-medium truncate">@{currentUser.username || currentUser.name}</p>
+                        <p className="text-sm text-muted truncate">{currentUser.email}</p>
+                      </div>
+                      <Link
+                        to="/dashboard?tab=profile"
+                        className="block px-4 py-2 text-sm text-muted hover:bg-gray-800 hover:text-primary transition-colors duration-200"
+                        onClick={() => setDropdownOpen(false)}
+                      >
+                        Profile
+                      </Link>
+                      {/* Sign out will be implemented later */}
+                      <button
+                        className="block w-full text-left px-4 py-2 text-sm text-muted hover:bg-gray-800 hover:text-primary transition-colors duration-200"
+                      >
+                        Sign out
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <Link
+                to="/sign-in"
+                className="hidden sm:inline-flex items-center px-5 py-2.5 text-sm font-medium rounded-md text-darkBackground bg-primary hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary transition-all duration-200 hover:scale-105 active:scale-95"
+              >
+                Sign In
+              </Link>
+            )}
 
             {/* Mobile menu button */}
             <button
@@ -162,19 +227,37 @@ const Header = () => {
                 to={link.path}
                 className={`block px-4 py-3 rounded-md text-base font-medium transition-colors ${
                   location.pathname === link.path
-                    ? 'text-primary bg-primary/10'
-                    : 'text-muted hover:text-primary hover:bg-primary/10'
+                    ? "text-primary bg-primary/10"
+                    : "text-muted hover:text-primary hover:bg-primary/10"
                 }`}
+                onClick={() => setIsOpen(false)}
               >
                 {link.label}
               </Link>
             ))}
-            <Link
-              to="/sign-in"
-              className="block w-full mt-2 px-4 py-3 rounded-md text-base font-medium text-center text-darkBackground bg-primary hover:bg-primary/90 transition-colors duration-200"
-            >
-              Sign In
-            </Link>
+            {currentUser ? (
+              <div className="pt-2 border-t border-gray-700">
+                <div className="px-4 py-3">
+                  <p className="text-sm text-primary font-medium">@{currentUser.username || currentUser.name}</p>
+                  <p className="text-sm text-muted">{currentUser.email}</p>
+                </div>
+                <Link
+                  to="/dashboard?tab=profile"
+                  className="block px-4 py-3 rounded-md text-base font-medium text-muted hover:text-primary hover:bg-primary/10 transition-colors duration-200"
+                  onClick={() => setIsOpen(false)}
+                >
+                  Profile
+                </Link>
+              </div>
+            ) : (
+              <Link
+                to="/sign-in"
+                className="block w-full mt-2 px-4 py-3 rounded-md text-base font-medium text-center text-darkBackground bg-primary hover:bg-primary/90 transition-colors duration-200"
+                onClick={() => setIsOpen(false)}
+              >
+                Sign In
+              </Link>
+            )}
           </div>
         </div>
       )}

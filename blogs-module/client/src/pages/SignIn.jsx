@@ -73,8 +73,8 @@ export default function SignIn() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-darkBackground flex items-center justify-center p-4 font-sans">
-      <div className="w-full max-w-4xl bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden border border-gray-100 dark:border-gray-700">
+    <div className="min-h-screen bg-darkBackground flex items-center justify-center p-4 font-sans">
+      <div className="w-full max-w-4xl bg-gray-800 rounded-xl shadow-lg overflow-hidden border border-gray-700">
         <div className="flex flex-col md:flex-row">
           {/* Left Side - Branding */}
           <div className="w-full md:w-1/2 bg-gradient-to-br from-primary to-primary-600 p-8 text-white flex flex-col justify-center">
@@ -129,14 +129,14 @@ export default function SignIn() {
           {/* Right Side - Form */}
           <div className="w-full md:w-1/2 p-8">
             <div className="max-w-xs mx-auto md:mx-0">
-              <h1 className="text-2xl font-bold text-gray-800 dark:text-white mb-2">Sign In</h1>
-              <p className="text-gray-500 dark:text-gray-400 mb-8">
+              <h1 className="text-2xl font-bold text-white mb-2">Sign In</h1>
+              <p className="text-gray-400 mb-8">
                 Access your BaazTechno account
               </p>
 
               <form className="space-y-5" onSubmit={handleSubmit}>
                 <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-1">
                     Email Address
                   </label>
                   <div className="relative">
@@ -147,7 +147,7 @@ export default function SignIn() {
                       type="email"
                       id="email"
                       placeholder="name@company.com"
-                      className="block w-full pl-10 pr-3 py-2.5 border border-gray-200 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-transparent transition-all"
+                      className="block w-full pl-10 pr-3 py-2.5 border border-gray-600 rounded-lg bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-transparent transition-all"
                       onChange={handleChange}
                       value={formData.email}
                       autoComplete="username"
@@ -156,7 +156,7 @@ export default function SignIn() {
                 </div>
 
                 <div>
-                  <label htmlFor="password" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  <label htmlFor="password" className="block text-sm font-medium text-gray-300 mb-1">
                     Password
                   </label>
                   <div className="relative">
@@ -167,7 +167,7 @@ export default function SignIn() {
                       type="password"
                       id="password"
                       placeholder="Enter your password"
-                      className="block w-full pl-10 pr-3 py-2.5 border border-gray-200 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-transparent transition-all"
+                      className="block w-full pl-10 pr-3 py-2.5 border border-gray-600 rounded-lg bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-transparent transition-all"
                       onChange={handleChange}
                       value={formData.password}
                       autoComplete="current-password"
@@ -176,7 +176,7 @@ export default function SignIn() {
                   <div className="mt-2 text-right">
                     <Link
                       to="/forgot-password"
-                      className="text-xs text-primary hover:text-primary-600 font-medium transition-colors"
+                      className="text-xs text-primary hover:text-primary-400 font-medium transition-colors"
                     >
                       Forgot password?
                     </Link>
@@ -232,11 +232,11 @@ export default function SignIn() {
               </form>
 
               <div className="mt-6 text-center">
-                <p className="text-gray-500 dark:text-gray-400 text-sm">
+                <p className="text-gray-400 text-sm">
                   Don't have an account?{' '}
                   <Link
                     to="/sign-up"
-                    className="text-primary hover:text-primary-600 font-medium transition-colors"
+                    className="text-primary hover:text-primary-400 font-medium transition-colors"
                   >
                     Sign Up
                   </Link>
@@ -244,13 +244,13 @@ export default function SignIn() {
               </div>
 
               {error && (
-                <div className="mt-4 p-3 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 text-sm rounded-lg border border-red-200 dark:border-red-800">
+                <div className="mt-4 p-3 bg-red-900/20 text-red-400 text-sm rounded-lg border border-red-800">
                   {error}
                 </div>
               )}
 
               {successMessage && (
-                <div className="mt-4 p-3 bg-green-50 dark:bg-green-900/20 text-green-600 dark:text-green-400 text-sm rounded-lg border border-green-200 dark:border-green-800">
+                <div className="mt-4 p-3 bg-green-900/20 text-green-400 text-sm rounded-lg border border-green-800">
                   {successMessage}
                 </div>
               )}

@@ -1,16 +1,18 @@
 import { useState } from 'react';
 import { FaArrowRight, FaCheckCircle, FaEnvelope, FaLock } from 'react-icons/fa';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import CompanyLogo from '../assets/baaztechno.png';
+import { signInFailure, signInStart, signInSuccess } from '../redux/user/userSlice';
 
 export default function SignIn() {
   const [formData, setFormData] = useState({
     email: '',
     password: ''
   });
-  const [errorMessage, setErrorMessage] = useState(null);
+  const { loading, error } = useSelector((state) => state.user);
   const [successMessage, setSuccessMessage] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -23,17 +25,17 @@ export default function SignIn() {
 
   const validateForm = () => {
     if (!formData.email || !formData.password) {
-      setErrorMessage('Both email and password are required');
+      dispatch(signInFailure('Both email and password are required'));
       return false;
     }
 
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      setErrorMessage('Please enter a valid email address');
+      dispatch(signInFailure('Please enter a valid email address'));
       return false;
     }
 
     if (formData.password.length < 6) {
-      setErrorMessage('Password must be at least 6 characters');
+      dispatch(signInFailure('Password must be at least 6 characters'));
       return false;
     }
 
@@ -42,11 +44,9 @@ export default function SignIn() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setErrorMessage(null);
+    dispatch(signInStart());
     
     if (!validateForm()) return;
-
-    setLoading(true);
 
     try {
       const res = await fetch('/api/auth/signin', {
@@ -63,12 +63,11 @@ export default function SignIn() {
         throw new Error(data.message || 'Sign in failed. Please try again.');
       }
 
+      dispatch(signInSuccess(data));
       setSuccessMessage('Login successful! Redirecting...');
-      setTimeout(() => navigate('/'), 1500); // Redirect to home page
+      setTimeout(() => navigate('/'), 1500);
     } catch (error) {
-      setErrorMessage(error.message);
-    } finally {
-      setLoading(false);
+      dispatch(signInFailure(error.message));
     }
   };
 
@@ -242,9 +241,9 @@ export default function SignIn() {
                 </p>
               </div>
 
-              {errorMessage && (
+              {error && (
                 <div className="mt-4 p-3 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 text-sm rounded-lg border border-red-200 dark:border-red-800">
-                  {errorMessage}
+                  {error}
                 </div>
               )}
 

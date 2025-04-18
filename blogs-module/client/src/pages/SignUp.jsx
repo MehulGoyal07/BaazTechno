@@ -1,8 +1,95 @@
-import { FaArrowRight, FaEnvelope, FaLock, FaUser } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
+import { useState } from 'react';
+import { FaArrowRight, FaCheckCircle, FaEnvelope, FaLock, FaUser } from 'react-icons/fa';
+import { Link, useNavigate } from 'react-router-dom';
 import CompanyLogo from '../assets/baaztechno.png';
 
 export default function SignUp() {
+  const [formData, setFormData] = useState({
+    username: '',
+    email: '',
+    password: ''
+  });
+  const [errorMessage, setErrorMessage] = useState(null);
+  const [successMessage, setSuccessMessage] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [passwordStrength, setPasswordStrength] = useState(0);
+  const navigate = useNavigate();
+
+  const handleChange = (e) => {
+    const { id, value } = e.target;
+    setFormData({
+      ...formData,
+      [id]: value.trim()
+    });
+
+    // Calculate password strength if password field is changed
+    if (id === 'password') {
+      let strength = 0;
+      if (value.length > 5) strength += 1;
+      if (value.length > 8) strength += 1;
+      if (/[A-Z]/.test(value)) strength += 1;
+      if (/[0-9]/.test(value)) strength += 1;
+      if (/[^A-Za-z0-9]/.test(value)) strength += 1;
+      setPasswordStrength(strength);
+    }
+  };
+
+  const validateForm = () => {
+    if (!formData.username || !formData.email || !formData.password) {
+      setErrorMessage('All fields are required');
+      return false;
+    }
+
+    if (formData.username.length < 3) {
+      setErrorMessage('Username must be at least 3 characters');
+      return false;
+    }
+
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      setErrorMessage('Please enter a valid email address');
+      return false;
+    }
+
+    if (formData.password.length < 6) {
+      setErrorMessage('Password must be at least 6 characters');
+      return false;
+    }
+
+    return true;
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setErrorMessage(null);
+    
+    if (!validateForm()) return;
+
+    setLoading(true);
+
+    try {
+      const res = await fetch('/api/auth/signup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.message || 'Signup failed. Please try again.');
+      }
+
+      setSuccessMessage('Account created successfully! Redirecting...');
+      setTimeout(() => navigate('/sign-in'), 2000);
+    } catch (error) {
+      setErrorMessage(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-darkBackground flex items-center justify-center p-4 font-sans">
       <div className="w-full max-w-4xl bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden border border-gray-100 dark:border-gray-700">
@@ -65,7 +152,7 @@ export default function SignUp() {
                 Begin your journey with BaazTechno
               </p>
 
-              <form className="space-y-5">
+              <form className="space-y-5" onSubmit={handleSubmit}>
                 <div>
                   <label htmlFor="username" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                     Username
@@ -79,6 +166,8 @@ export default function SignUp() {
                       id="username"
                       placeholder="Enter your username"
                       className="block w-full pl-10 pr-3 py-2.5 border border-gray-200 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-transparent transition-all"
+                      onChange={handleChange}
+                      value={formData.username}
                     />
                   </div>
                 </div>
@@ -96,6 +185,8 @@ export default function SignUp() {
                       id="email"
                       placeholder="name@company.com"
                       className="block w-full pl-10 pr-3 py-2.5 border border-gray-200 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-transparent transition-all"
+                      onChange={handleChange}
+                      value={formData.email}
                     />
                   </div>
                 </div>
@@ -113,15 +204,75 @@ export default function SignUp() {
                       id="password"
                       placeholder="Create a password"
                       className="block w-full pl-10 pr-3 py-2.5 border border-gray-200 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-transparent transition-all"
+                      onChange={handleChange}
+                      value={formData.password}
                     />
                   </div>
+                  {formData.password && (
+                    <div className="mt-2">
+                      <div className="flex gap-1">
+                        {[1, 2, 3, 4, 5].map((i) => (
+                          <div 
+                            key={i}
+                            className={`h-1 flex-1 rounded-full ${i <= passwordStrength ? 
+                              (passwordStrength < 3 ? 'bg-red-500' : 
+                               passwordStrength < 5 ? 'bg-yellow-500' : 'bg-green-500') : 
+                              'bg-gray-200 dark:bg-gray-600'}`}
+                          />
+                        ))}
+                      </div>
+                      <p className="text-xs mt-1 text-gray-500 dark:text-gray-400">
+                        {passwordStrength < 3 ? 'Weak' : 
+                         passwordStrength < 5 ? 'Moderate' : 'Strong'} password
+                      </p>
+                    </div>
+                  )}
                 </div>
 
                 <button
                   type="submit"
-                  className="w-full flex items-center justify-center px-5 py-3 bg-primary hover:bg-primary-600 text-white font-medium rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:ring-offset-2"
+                  disabled={loading}
+                  className={`w-full flex items-center justify-center px-5 py-3 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:ring-offset-2 ${
+                    loading 
+                      ? 'bg-primary-400 cursor-not-allowed' 
+                      : 'bg-primary hover:bg-primary-600 text-white'
+                  }`}
                 >
-                  Sign Up <FaArrowRight className="ml-2" />
+                  {loading ? (
+                    <>
+                      <svg
+                        className="animate-spin h-5 w-5 text-white mr-3"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                      >
+                        <circle
+                          className="opacity-25"
+                          cx="12"
+                          cy="12"
+                          r="10"
+                          stroke="currentColor"
+                          strokeWidth="4"
+                          fill="none"
+                        />
+                        <path
+                          className="opacity-75"
+                          fill="currentColor"
+                          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                        />
+                      </svg>
+                      Processing...
+                    </>
+                  ) : successMessage ? (
+                    <>
+                      <FaCheckCircle className="mr-2" />
+                      Success!
+                    </>
+                  ) : (
+                    <>
+                      <FaArrowRight className="mr-2" />
+                      Sign Up
+                    </>
+                  )}
                 </button>
               </form>
 
@@ -136,6 +287,18 @@ export default function SignUp() {
                   </Link>
                 </p>
               </div>
+
+              {errorMessage && (
+                <div className="mt-4 p-3 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 text-sm rounded-lg border border-red-200 dark:border-red-800">
+                  {errorMessage}
+                </div>
+              )}
+
+              {successMessage && (
+                <div className="mt-4 p-3 bg-green-50 dark:bg-green-900/20 text-green-600 dark:text-green-400 text-sm rounded-lg border border-green-200 dark:border-green-800">
+                  {successMessage}
+                </div>
+              )}
             </div>
           </div>
         </div>

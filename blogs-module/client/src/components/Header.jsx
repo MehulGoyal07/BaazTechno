@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react";
 import { AiOutlineClose, AiOutlineSearch, AiOutlineUser } from "react-icons/ai";
 import { FiChevronDown } from "react-icons/fi";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import companyLogo from "../assets/baaztechno.png";
+import {
+  signOutSuccess
+} from "../redux/user/userSlice";
 
 const Header = () => {
   const location = useLocation();
@@ -12,6 +15,7 @@ const Header = () => {
   const [scrolled, setScrolled] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const dispatch = useDispatch();
 
   const toggleMenu = () => setIsOpen(!isOpen);
   const toggleDropdown = () => setDropdownOpen(!dropdownOpen);
@@ -47,6 +51,24 @@ const Header = () => {
     { path: "/about", label: "About" },
     { path: "/projects", label: "Projects" },
   ];
+
+  const handleSignOut = async () => {
+      try {
+        const res = await fetch("/api/user/signout", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        if (!res.ok) {
+          throw new Error("Failed to sign out");
+        }
+        dispatch(signOutSuccess());
+      } catch (error) {
+        console.error("Sign out error:", error);
+      }
+    };
+  
 
   return (
     <header
@@ -158,6 +180,7 @@ const Header = () => {
                       {/* Sign out will be implemented later */}
                       <button
                         className="block w-full text-left px-4 py-2 text-sm text-muted hover:bg-gray-800 hover:text-primary transition-colors duration-200"
+                        onClick={handleSignOut}
                       >
                         Sign out
                       </button>

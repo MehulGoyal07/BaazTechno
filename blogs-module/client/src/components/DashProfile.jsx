@@ -3,13 +3,13 @@ import { getDownloadURL, getStorage, ref, uploadBytesResumable } from "firebase/
 import React, { createRef, useState } from "react";
 import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
-import { FaPen, FaSignOutAlt, FaTrash } from "react-icons/fa";
+import { FaPen, FaSignOutAlt, FaTimes, FaTrash } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { app } from "../firebase";
-import { updateFailure, updateStart, updateSuccess } from "../redux/user/userSlice";
+import { deleteUserFailure, deleteUserStart, deleteUserSuccess, updateFailure, updateStart, updateSuccess } from "../redux/user/userSlice";
 
 const DashProfile = () => {
-  const { currentUser } = useSelector((state) => state.user);
+  const { currentUser, error } = useSelector((state) => state.user);
   const [imageFile, setImageFile] = useState(null);
   const [imageFileUrl, setImageFileUrl] = useState(null);
   const [imageFileUploadingProgress, setImageFileUploadingProgress] = useState(null);
@@ -18,7 +18,8 @@ const DashProfile = () => {
   const [imageFileUploading, setImageFileUploading] = useState(false);
   const [updateUserSuccess, setUpdateUserSuccess] = useState(null);
   const [updateUserError, setUpdateUserError] = useState(null);
-  const [tempImageUrl, setTempImageUrl] = useState(null); // For handling canceled uploads
+  const [tempImageUrl, setTempImageUrl] = useState(null);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
   const filePickerRef = createRef();
   const dispatch = useDispatch();
 
@@ -30,7 +31,7 @@ const DashProfile = () => {
         return;
       }
       setImageFile(file);
-      setTempImageUrl(URL.createObjectURL(file)); // Store temp URL for preview
+      setTempImageUrl(URL.createObjectURL(file));
       setImageFileUploadError(null);
     }
   };
@@ -54,7 +55,7 @@ const DashProfile = () => {
           setImageFileUploadError("Image upload failed");
           setImageFileUploadingProgress(null);
           setImageFile(null);
-          setTempImageUrl(null); // Clear temp URL on error
+          setTempImageUrl(null);
           setImageFileUploading(false);
         },
         () => {
@@ -63,7 +64,7 @@ const DashProfile = () => {
             setImageFileUploadingProgress(null);
             setFormData({ ...formData, profilePicture: downloadURL });
             setImageFileUploading(false);
-            setTempImageUrl(null); // Clear temp URL after successful upload
+            setTempImageUrl(null);
           });
         }
       );
@@ -76,16 +77,14 @@ const DashProfile = () => {
     }
   };
 
-  // Only upload image when user confirms (on form submit)
   const handleSubmit = async (e) => {
     e.preventDefault();
     setUpdateUserError(null);
     setUpdateUserSuccess(null);
 
-    // Upload image first if a new one was selected
     if (imageFile && !imageFileUrl) {
       await uploadImage();
-      if (imageFileUploadError) return; // Stop if image upload failed
+      if (imageFileUploadError) return;
     }
 
     if (Object.keys(formData).length === 0 && !imageFileUrl) {
@@ -112,7 +111,6 @@ const DashProfile = () => {
       } else {
         dispatch(updateSuccess(data));
         setUpdateUserSuccess("Profile updated successfully");
-        // Reset image states after successful update
         setImageFile(null);
         setImageFileUrl(null);
         setTempImageUrl(null);
@@ -124,7 +122,6 @@ const DashProfile = () => {
   };
 
   const handleCancelUpload = () => {
-    // Cancel the upload (Firebase doesn't provide a direct cancel method)
     setImageFile(null);
     setTempImageUrl(null);
     setImageFileUploadingProgress(null);
@@ -134,6 +131,27 @@ const DashProfile = () => {
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
+  };
+
+  const handleDeleteUser = async () => {
+    setShowDeleteModal(false);
+    try {
+      dispatch(deleteUserStart());
+      const res = await fetch(`/api/user/delete/${currentUser._id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        dispatch(deleteUserFailure(data));
+      } else {
+        dispatch(deleteUserSuccess());
+      }
+    } catch (error) {
+      dispatch(deleteUserFailure(error.message));
+    }
   };
 
   return (
@@ -269,25 +287,66 @@ const DashProfile = () => {
           <span className="font-medium">Error!</span> {updateUserError}
         </div>
       )}
+      {error && (
+        <div className="bg-red-900/30 border border-red-800 text-red-400 px-4 py-3 rounded-lg mt-4">
+          <span className="font-medium">Error!</span> {error}
+        </div>
+      )}
 
       {/* Action Buttons */}
       <div className="flex justify-between items-center mt-6">
         <button
+          onClick={() => setShowDeleteModal(true)}
           className="flex items-center text-red-400 hover:text-red-300 transition-colors"
-          type="button"
         >
           <FaTrash className="mr-2" />
           <span className="font-medium">Delete Account</span>
         </button>
 
-        <button
-          className="flex items-center text-muted hover:text-primary transition-colors"
-          type="button"
-        >
+        <button className="flex items-center text-muted hover:text-primary transition-colors">
           <FaSignOutAlt className="mr-2" />
           <span className="font-medium">Sign Out</span>
         </button>
       </div>
+
+      {/* Delete Confirmation Modal */}
+      {showDeleteModal && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+          <div className="bg-gray-800 rounded-xl shadow-xl border border-gray-700 max-w-md w-full p-6">
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-xl font-bold text-white">Confirm Deletion</h3>
+              <button 
+                onClick={() => setShowDeleteModal(false)}
+                className="text-gray-400 hover:text-white"
+              >
+                <FaTimes />
+              </button>
+            </div>
+            <div className="text-center py-6">
+              <div className="mx-auto w-16 h-16 flex items-center justify-center bg-red-500/20 rounded-full mb-4">
+                <FaTrash className="text-red-500 text-2xl" />
+              </div>
+              <p className="text-gray-300 mb-6">
+                Are you sure you want to delete your account? This action cannot be undone.
+              </p>
+              <div className="flex justify-center gap-4">
+                <button
+                  onClick={handleDeleteUser}
+                  className="px-6 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors"
+                >
+                  Yes, Delete
+                </button>
+                <button
+                  onClick={() => setShowDeleteModal(false)}
+                  className="px-6 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition-colors"
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

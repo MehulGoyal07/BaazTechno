@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import {
   getDownloadURL,
   getStorage,
@@ -10,6 +9,7 @@ import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import { FaPen, FaSignOutAlt, FaTimes, FaTrash } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import { app } from "../firebase";
 import {
   deleteUserFailure,
@@ -18,7 +18,7 @@ import {
   signOutSuccess,
   updateFailure,
   updateStart,
-  updateSuccess
+  updateSuccess,
 } from "../redux/user/userSlice";
 
 const DashProfile = () => {
@@ -57,59 +57,69 @@ const DashProfile = () => {
       const fileName = new Date().getTime() + imageFile.name;
       const storageRef = ref(storage, fileName);
       const uploadTask = uploadBytesResumable(storageRef, imageFile);
-
-      uploadTask.on(
-        "state_changed",
-        (snapshot) => {
-          const progress =
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          setImageFileUploadingProgress(progress.toFixed(0));
-        },
-        (error) => {
-          setImageFileUploadError("Image upload failed");
-          setImageFileUploadingProgress(null);
-          setImageFile(null);
-          setImageFileUrl(null);
-          setImageFileUploading(false);
-        },
-        async () => {
-          try {
-            const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-            setImageFileUrl(downloadURL);
-            setFormData({ ...formData, profilePicture: downloadURL });
-          } catch (error) {
-            setImageFileUploadError("Failed to get image URL");
-          } finally {
+  
+      return new Promise((resolve, reject) => {
+        uploadTask.on(
+          "state_changed",
+          (snapshot) => {
+            const progress =
+              (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            setImageFileUploadingProgress(progress.toFixed(0));
+          },
+          (error) => {
+            setImageFileUploadError("Image upload failed");
             setImageFileUploadingProgress(null);
+            setImageFile(null);
+            setImageFileUrl(null);
             setImageFileUploading(false);
+            reject(error);
+          },
+          async () => {
+            try {
+              const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+              setImageFileUrl(downloadURL);
+              setFormData((prev) => ({ ...prev, profilePicture: downloadURL }));
+              resolve(downloadURL);
+            } catch (error) {
+              setImageFileUploadError("Failed to get image URL");
+              reject(error);
+            } finally {
+              setImageFileUploadingProgress(null);
+              setImageFileUploading(false);
+            }
           }
-        }
-      );
+        );
+      });
     } catch (error) {
       setImageFileUploadError("Image upload failed");
       setImageFileUploadingProgress(null);
       setImageFile(null);
       setImageFileUrl(null);
       setImageFileUploading(false);
+      throw error;
     }
   };
-
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     setUpdateUserError(null);
     setUpdateUserSuccess(null);
-
-    if (imageFile && !imageFileUploadingProgress) {
-      await uploadImage();
-      if (imageFileUploadError) return;
-    }
-
-    if (Object.keys(formData).length === 0 && !imageFileUrl) {
-      setUpdateUserError("No changes made to update");
-      return;
-    }
-
+  
     try {
+      let profilePictureUrl = imageFileUrl || currentUser.profilePicture;
+  
+      // Only upload if there's a new image file selected
+      if (imageFile) {
+        profilePictureUrl = await uploadImage();
+        if (imageFileUploadError) return;
+      }
+  
+      // Don't send request if no changes were made
+      if (Object.keys(formData).length === 0 && !imageFile) {
+        setUpdateUserError("No changes made to update");
+        return;
+      }
+  
       dispatch(updateStart());
       const res = await fetch(`/api/user/update/${currentUser._id}`, {
         method: "PUT",
@@ -118,31 +128,35 @@ const DashProfile = () => {
         },
         body: JSON.stringify({
           ...formData,
-          ...(imageFileUrl && { profilePicture: imageFileUrl }),
+          ...(profilePictureUrl && { profilePicture: profilePictureUrl }),
         }),
       });
-
+  
       const data = await res.json();
-
+  
       if (!res.ok) {
-        // Extract error message from response
         const errorMessage = data.message || "Update failed";
-        dispatch(updateFailure(errorMessage)); // Pass string instead of object
+        dispatch(updateFailure(errorMessage));
         setUpdateUserError(errorMessage);
         return;
       }
-
+  
       dispatch(updateSuccess(data));
       setUpdateUserSuccess("Profile updated successfully");
       setImageFile(null);
       setImageFileUrl(null);
+      setFormData({}); // Reset form data after successful update
+      
+      // Clear success message after 3 seconds
+      setTimeout(() => {
+        setUpdateUserSuccess(null);
+      }, 3000);
     } catch (error) {
       const errorMessage = error.message || "Profile update failed";
       dispatch(updateFailure(errorMessage));
       setUpdateUserError(errorMessage);
     }
   };
-
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
@@ -327,6 +341,22 @@ const DashProfile = () => {
         >
           {imageFileUploading ? "Uploading..." : "Update Profile"}
         </button>
+        {currentUser.isAdmin && (
+          <div className="mt-4 text-center">
+            <Link to="/create-post">
+              <button
+                className="w-full py-3 px-6 bg-gradient-to-r from-blue-500 to-blue-400 
+            text-darkBackground font-heading font-bold rounded-lg shadow-button
+            hover:shadow-lg transform hover:-translate-y-0.5 transition-all 
+            duration-300 focus:outline-none focus:ring-2 focus:ring-blue-400/50
+            disabled:opacity-50"
+                type="button"
+              >
+                Create a post
+              </button>
+            </Link>
+          </div>
+        )}
       </form>
 
       {/* Action Buttons */}
@@ -346,9 +376,7 @@ const DashProfile = () => {
           onClick={handleSignOut}
         >
           <FaSignOutAlt className="mr-2" />
-          <span className="font-medium">
-            Sign Out
-          </span>
+          <span className="font-medium">Sign Out</span>
         </button>
       </div>
 

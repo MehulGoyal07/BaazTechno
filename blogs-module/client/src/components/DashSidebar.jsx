@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
+import { BsFillFileEarmarkPostFill } from "react-icons/bs";
 import { HiArrowSmRight, HiUser } from "react-icons/hi";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import { signOutSuccess } from "../redux/user/userSlice";
 const DashSidebar = () => {
   const location = useLocation();
   const [tab, setTab] = useState("");
   const dispatch = useDispatch();
+  const { currentUser } = useSelector((state) => state.user);
 
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
@@ -45,8 +47,27 @@ const DashSidebar = () => {
           }`}
         >
           <HiUser className="mr-3 text-lg" />
-          <span className="font-heading">Profile</span>
+          <div className="flex flex-col">
+            <span className="font-heading">Profile</span>
+            <span className="text-xs text-gray-400">
+              {currentUser.isAdmin ? "Admin" : "User"}
+            </span>
+          </div>
         </Link>
+
+        {currentUser.isAdmin && (
+          <Link
+            to="/dashboard?tab=posts"
+            className={`flex items-center p-3 rounded-lg transition-all duration-200 font-medium ${
+              tab === "posts"
+                ? "bg-primary/10 text-primary shadow-button"
+                : "text-muted hover:bg-gray-800 hover:text-primary"
+            }`}
+          >
+            <BsFillFileEarmarkPostFill className="mr-3 text-lg" />
+            <span className="font-heading">Posts</span>
+          </Link>
+        )}
         <button
           className="flex items-center w-full p-3 rounded-lg text-muted hover:bg-gray-800 hover:text-primary transition-all duration-200 font-medium"
           onClick={handleSignOut}

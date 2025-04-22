@@ -7,12 +7,14 @@ import OnlyAdminPrivateRoute from './components/OnlyAdminPrivateRoute';
 import PrivateRoute from './components/PrivateRoute';
 import ScrollToTop from './components/ScrollToTop';
 import About from './pages/About';
+import ContactUs from './pages/ContactUs';
 import CreatePost from './pages/CreatePost';
 import Dashboard from './pages/Dashboard';
 import Home from './pages/Home';
 import Projects from './pages/Projects';
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
+import UpdatePost from './pages/UpdatePost';
 
 function App() {
   return (
@@ -24,11 +26,13 @@ function App() {
       <Route path="/about" element={<About />} />
       <Route path="/sign-in" element={<SignIn />} />
       <Route path="/sign-up" element={<SignUp />} />
+      <Route path="/contact" element={<ContactUs />} />
       <Route element={<PrivateRoute />}> 
         <Route path="/dashboard" element={<Dashboard />} />
       </Route>
       <Route element={<OnlyAdminPrivateRoute />}> 
         <Route path="/create-post" element={<CreatePost />} />
+        <Route path="/update-post/:postId" element={<UpdatePost />} />
       </Route>
       <Route path="/projects" element={<Projects />} />
     </Routes>

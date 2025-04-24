@@ -80,3 +80,49 @@ export const deletepost = async(req, res, next) => {
         next(error)
     }
 }
+
+export const updatepost = async(req, res, next) => {
+    if (!req.user.isAdmin || req.user.id !== req.params.userId) {
+        return next(errorHandler(403, 'You are not allowed to update this post!'))
+    }
+    try {
+        // Generate slug from title if it exists in the request
+        const updateData = {
+            title: req.body.title,
+            content: req.body.content,
+            category: req.body.category,
+            image: req.body.image,
+        };
+
+        // Only update slug if title is being updated
+        if (req.body.title) {
+            let slug = req.body.title
+                .toLowerCase()
+                .replace(/ /g, '-')
+                .replace(/[^\w-]+/g, '');
+
+            // Check if slug already exists for another post
+            const existingPost = await Post.findOne({ slug, _id: { $ne: req.params.postId } });
+            if (existingPost) {
+                slug = `${slug}-${Date.now()}`;
+            }
+
+            if (slug.length > 100) {
+                slug = slug.substring(0, 100);
+            }
+
+            updateData.slug = slug;
+        }
+
+        const updatedpost = await Post.findByIdAndUpdate(
+            req.params.postId, { $set: updateData }, { new: true }
+        );
+
+        if (!updatedpost) {
+            return next(errorHandler(404, 'Post not found!'))
+        }
+        res.status(200).json(updatedpost)
+    } catch (error) {
+        next(error)
+    }
+}

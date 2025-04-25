@@ -20,6 +20,7 @@
     "flowbite": "^3.1.2",
     "flowbite-react": "^0.11.7",
     "framer-motion": "^12.7.4",
+    "moment": "^2.30.1",
     "react": "^19.0.0",
     "react-circular-progressbar": "^2.2.0",
     "react-dom": "^19.0.0",

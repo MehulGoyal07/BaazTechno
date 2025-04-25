@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { BsFillFileEarmarkPostFill } from "react-icons/bs";
+import { FaUsers } from "react-icons/fa";
 import { HiArrowSmRight, HiUser } from "react-icons/hi";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
@@ -66,6 +67,19 @@ const DashSidebar = () => {
           >
             <BsFillFileEarmarkPostFill className="mr-3 text-lg" />
             <span className="font-heading">Posts</span>
+          </Link>
+        )}
+        {currentUser.isAdmin && (
+          <Link
+            to="/dashboard?tab=users"
+            className={`flex items-center p-3 rounded-lg transition-all duration-200 font-medium ${
+              tab === "posts"
+                ? "bg-primary/10 text-primary shadow-button"
+                : "text-muted hover:bg-gray-800 hover:text-primary"
+            }`}
+          >
+            <FaUsers className="mr-3 text-lg" />
+            <span className="font-heading">Users</span>
           </Link>
         )}
         <button

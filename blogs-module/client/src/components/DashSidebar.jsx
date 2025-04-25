@@ -5,6 +5,7 @@ import { HiArrowSmRight, HiUser } from "react-icons/hi";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import { signOutSuccess } from "../redux/user/userSlice";
+
 const DashSidebar = () => {
   const location = useLocation();
   const [tab, setTab] = useState("");
@@ -37,57 +38,64 @@ const DashSidebar = () => {
   };
 
   return (
-    <div className="w-full md:w-64 bg-gray-900 border-r border-gray-800 p-4 shadow-card">
-      <div className="space-y-3">
+    <div className="w-full md:w-56 lg:w-64 bg-gray-900 border-r border-gray-800 p-4 shadow-card">
+      <div className="space-y-2">
+        {/* Profile Link */}
         <Link
           to="/dashboard?tab=profile"
-          className={`flex items-center p-3 rounded-lg transition-all duration-200 font-medium ${
+          className={`flex items-center gap-3 p-3 rounded-lg transition-all duration-200 font-medium ${
             tab === "profile"
-              ? "bg-primary/10 text-primary shadow-button"
-              : "text-muted hover:bg-gray-800 hover:text-primary"
+              ? "bg-primary/10 text-primary border-l-4 border-primary"
+              : "text-gray-300 hover:bg-gray-800 hover:text-primary"
           }`}
         >
-          <HiUser className="mr-3 text-lg" />
-          <div className="flex flex-col">
-            <span className="font-heading">Profile</span>
-            <span className="text-xs text-gray-400">
+          <HiUser className="text-lg flex-shrink-0" />
+          <div className="flex flex-col overflow-hidden">
+            <span className="font-medium truncate">Profile</span>
+            <span className="text-xs text-gray-400 truncate">
               {currentUser.isAdmin ? "Admin" : "User"}
             </span>
           </div>
         </Link>
 
+        {/* Admin Only Links */}
         {currentUser.isAdmin && (
-          <Link
-            to="/dashboard?tab=posts"
-            className={`flex items-center p-3 rounded-lg transition-all duration-200 font-medium ${
-              tab === "posts"
-                ? "bg-primary/10 text-primary shadow-button"
-                : "text-muted hover:bg-gray-800 hover:text-primary"
-            }`}
-          >
-            <BsFillFileEarmarkPostFill className="mr-3 text-lg" />
-            <span className="font-heading">Posts</span>
-          </Link>
+          <>
+            {/* Posts Link */}
+            <Link
+              to="/dashboard?tab=posts"
+              className={`flex items-center gap-3 p-3 rounded-lg transition-all duration-200 font-medium ${
+                tab === "posts"
+                  ? "bg-primary/10 text-primary border-l-4 border-primary"
+                  : "text-gray-300 hover:bg-gray-800 hover:text-primary"
+              }`}
+            >
+              <BsFillFileEarmarkPostFill className="text-lg flex-shrink-0" />
+              <span className="font-medium truncate">Posts</span>
+            </Link>
+
+            {/* Users Link */}
+            <Link
+              to="/dashboard?tab=users"
+              className={`flex items-center gap-3 p-3 rounded-lg transition-all duration-200 font-medium ${
+                tab === "users"
+                  ? "bg-primary/10 text-primary border-l-4 border-primary"
+                  : "text-gray-300 hover:bg-gray-800 hover:text-primary"
+              }`}
+            >
+              <FaUsers className="text-lg flex-shrink-0" />
+              <span className="font-medium truncate">Users</span>
+            </Link>
+          </>
         )}
-        {currentUser.isAdmin && (
-          <Link
-            to="/dashboard?tab=users"
-            className={`flex items-center p-3 rounded-lg transition-all duration-200 font-medium ${
-              tab === "posts"
-                ? "bg-primary/10 text-primary shadow-button"
-                : "text-muted hover:bg-gray-800 hover:text-primary"
-            }`}
-          >
-            <FaUsers className="mr-3 text-lg" />
-            <span className="font-heading">Users</span>
-          </Link>
-        )}
+
+        {/* Sign Out Button */}
         <button
-          className="flex items-center w-full p-3 rounded-lg text-muted hover:bg-gray-800 hover:text-primary transition-all duration-200 font-medium"
           onClick={handleSignOut}
+          className="flex items-center gap-3 w-full p-3 rounded-lg text-gray-300 hover:bg-gray-800 hover:text-red-400 transition-all duration-200 font-medium"
         >
-          <HiArrowSmRight className="mr-3 text-lg" />
-          <span className="font-heading">Sign Out</span>
+          <HiArrowSmRight className="text-lg flex-shrink-0" />
+          <span className="font-medium">Sign Out</span>
         </button>
       </div>
     </div>

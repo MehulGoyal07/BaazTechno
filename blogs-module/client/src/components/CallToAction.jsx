@@ -41,7 +41,9 @@ export default function CallToAction() {
               Get Started <FaArrowRight />
             </a>
             <a
-              href="/blogs"
+              href="https://www.baaztechno.com"
+              target="_blank"
+              rel="noopener noreferrer"
               className="px-6 py-3 border border-gray-600 hover:border-primary text-white font-medium rounded-lg transition-colors flex items-center justify-center gap-2"
             >
               Learn More

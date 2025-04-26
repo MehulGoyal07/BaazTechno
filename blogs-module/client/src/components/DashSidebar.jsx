@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { BiSolidDashboard } from "react-icons/bi";
 import { BsFillFileEarmarkPostFill } from "react-icons/bs";
 import { FaUsers } from "react-icons/fa";
 import { FaComments } from "react-icons/fa6";
@@ -62,6 +63,18 @@ const DashSidebar = () => {
         {/* Admin Only Links */}
         {currentUser.isAdmin && (
           <>
+          {/* Dashboard Link */}
+          <Link
+              to="/dashboard?tab=dashboard"
+              className={`flex items-center gap-3 p-3 rounded-lg transition-all duration-200 font-medium ${
+                tab === "dashboard"
+                  ? "bg-primary/10 text-primary border-l-4 border-primary"
+                  : "text-gray-300 hover:bg-gray-800 hover:text-primary"
+              }`}
+            >
+              <BiSolidDashboard className="text-lg flex-shrink-0" />
+              <span className="font-medium truncate">Dashboard</span>
+            </Link>
             {/* Posts Link */}
             <Link
               to="/dashboard?tab=posts"

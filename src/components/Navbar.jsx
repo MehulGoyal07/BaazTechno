@@ -84,7 +84,7 @@ export default function Navbar() {
 
       {/* Mobile Navigation */}
       <div
-        className={`md:hidden fixed inset-0 z-40 transform ${
+        className={`md:hidden fixed inset-0 z-1000 transform ${
           isOpen ? 'translate-x-0' : '-translate-x-full'
         } transition-transform duration-300 ease-in-out`}
       >

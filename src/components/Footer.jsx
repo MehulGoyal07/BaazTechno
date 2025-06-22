@@ -120,11 +120,8 @@ const contactInfo = [
             <a href="/privacy-policy" className="hover:text-primary-500 transition-colors duration-300">
               Privacy Policy
             </a>
-            <a href="/terms" className="hover:text-primary-500 transition-colors duration-300">
+            <a href="/terms-conditions" className="hover:text-primary-500 transition-colors duration-300">
               Terms of Service
-            </a>
-            <a href="/sitemap" className="hover:text-primary-500 transition-colors duration-300">
-              Sitemap
             </a>
           </div>
         </div>

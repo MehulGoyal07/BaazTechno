@@ -39,11 +39,11 @@ export default function Hero() {
             {/* Stats/Highlights */}
             <div className="flex flex-wrap justify-center lg:justify-start gap-6 mb-12">
               <div className="bg-cardBg px-6 py-4 rounded-xl border border-gray-800">
-                <p className="text-primary-500 font-bold text-2xl">15+</p>
+                <p className="text-primary-500 font-bold text-2xl">3+</p>
                 <p className="text-white">Years Experience</p>
               </div>
               <div className="bg-cardBg px-6 py-4 rounded-xl border border-gray-800">
-                <p className="text-primary-500 font-bold text-2xl">200+</p>
+                <p className="text-primary-500 font-bold text-2xl">50+</p>
                 <p className="text-white">Satisfied Clients</p>
               </div>
               <div className="bg-cardBg px-6 py-4 rounded-xl border border-gray-800">

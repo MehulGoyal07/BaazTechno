@@ -1,7 +1,8 @@
 /* eslint-disable no-unused-vars */
 import emailjs from "emailjs-com";
-import React, { useState } from "react";
-import { FaPhoneAlt } from "react-icons/fa";
+import { motion } from "framer-motion";
+import { useState } from "react";
+import { FaEnvelope, FaMapMarkerAlt, FaPaperPlane, FaPhoneAlt } from "react-icons/fa";
 
 const ContactUs = () => {
   const [formData, setFormData] = useState({
@@ -9,6 +10,7 @@ const ContactUs = () => {
     email: "",
     message: "",
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -20,17 +22,18 @@ const ContactUs = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setIsSubmitting(true);
 
-    // Send the form data via email using EmailJS
     emailjs
       .sendForm(
-        "your_service_id",   // Your EmailJS service ID
-        "your_template_id",   // Your EmailJS template ID
+        "your_service_id",
+        "your_template_id",
         e.target,
-        "your_user_id"        // Your EmailJS user ID
+        "your_user_id"
       )
       .then(
         (result) => {
+          setIsSubmitting(false);
           alert("Message sent successfully!");
           setFormData({
             name: "",
@@ -39,95 +42,195 @@ const ContactUs = () => {
           });
         },
         (error) => {
+          setIsSubmitting(false);
           alert("Error sending message: " + error.text);
         }
       );
   };
 
   return (
-    <section className="bg-secondary text-white py-16">
-      <div className="container mx-auto px-4">
+    <section id="contact" className="bg-darkBackground py-20 px-4">
+      <div className="max-w-6xl mx-auto">
         {/* Section Heading */}
-        <h2 className="text-4xl font-bold text-center mb-10">Contact Us</h2>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          viewport={{ once: true }}
+          className="text-center mb-16"
+        >
+          <h2 className="text-4xl md:text-5xl font-bold font-heading text-primary-500 mb-4">
+            Get In Touch
+          </h2>
+          <p className="text-muted max-w-2xl mx-auto text-lg">
+            Have a project in mind or want to discuss potential opportunities? 
+            Reach out and let&apos;s create something amazing together.
+          </p>
+        </motion.div>
 
-        {/* Phone */}
-        <div className="flex justify-center items-center mb-8">
-          <FaPhoneAlt size={40} className="text-primary mr-4" />
-          <p className="text-xl font-semibold">Call Us:</p>
-          <a
-            href="tel:+1234567890"
-            className="text-accent hover:text-buttonHover text-xl ml-4"
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+          {/* Contact Information */}
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            viewport={{ once: true }}
+            className="space-y-8"
           >
-            +1 234 567 890
-          </a>
-        </div>
-
-        {/* Contact Form */}
-        <div className="bg-background rounded-lg shadow-lg p-8">
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="flex flex-col md:flex-row md:space-x-6">
-              {/* Name Input */}
-              <div className="flex-1">
-                <label htmlFor="name" className="text-lg font-medium text-black">
-                  Your Name
-                </label>
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleInputChange}
-                  required
-                  className="w-full bg-white text-black py-3 px-4 rounded-lg mt-2"
-                  placeholder="Enter your full name"
-                />
+            <div className="flex items-start">
+              <div className=" p-3 rounded-full mr-6">
+                <FaPhoneAlt className="text-primary-500 text-xl" />
               </div>
-
-              {/* Email Input */}
-              <div className="flex-1">
-                <label htmlFor="email" className="text-lg font-medium text-black">
-                  Your Email
-                </label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleInputChange}
-                  required
-                  className="w-full bg-white text-black py-3 px-4 rounded-lg mt-2"
-                  placeholder="Enter your email"
-                />
+              <div>
+                <h3 className="text-xl font-semibold font-heading text-white mb-2">Phone</h3>
+                <a 
+                  href="tel:+919520671308" 
+                  className="text-muted hover:text-primary-500 transition-colors duration-300 text-lg"
+                >
+                  +91 9520671308
+                </a>
               </div>
             </div>
 
-            {/* Message Input */}
-            <div>
-              <label htmlFor="message" className="text-lg font-medium text-black">
-                Your Message
-              </label>
-              <textarea
-                id="message"
-                name="message"
-                value={formData.message}
-                onChange={handleInputChange}
-                required
-                className="w-full bg-white text-black py-3 px-4 rounded-lg mt-2"
-                rows="5"
-                placeholder="Enter your message here"
-              />
+            <div className="flex items-start">
+              <div className="bg-primary-900 p-3 rounded-full mr-6">
+                <FaEnvelope className="text-primary-500 text-xl" />
+              </div>
+              <div>
+                <h3 className="text-xl font-semibold font-heading text-white mb-2">Email</h3>
+                <a 
+                  href="mailto:contact@example.com" 
+                  className="text-muted hover:text-primary-500 transition-colors duration-300 text-lg"
+                >
+                  contact@example.com
+                </a>
+              </div>
             </div>
 
-            {/* Submit Button */}
-            <div className="flex justify-center">
-              <button
-                type="submit"
-                className="bg-primary text-white py-3 px-8 rounded-lg text-lg hover:bg-buttonHover transition duration-300"
-              >
-                Send Message
-              </button>
+            <div className="flex items-start">
+              <div className="bg-primary-900 p-3 rounded-full mr-6">
+                <FaMapMarkerAlt className="text-primary-500 text-xl" />
+              </div>
+              <div>
+                <h3 className="text-xl font-semibold font-heading text-white mb-2">Location</h3>
+                <p className="text-muted text-lg">
+                  123 Business Ave, Suite 400<br />
+                  San Francisco, CA 94107
+                </p>
+              </div>
             </div>
-          </form>
+
+            <div className="pt-8">
+              <h3 className="text-2xl font-heading text-white mb-4">Business Hours</h3>
+              <div className="space-y-2">
+                <p className="text-muted flex justify-between">
+                  <span>Monday - Friday</span>
+                  <span>9:00 AM - 5:00 PM</span>
+                </p>
+                <p className="text-muted flex justify-between">
+                  <span>Saturday</span>
+                  <span>10:00 AM - 2:00 PM</span>
+                </p>
+                <p className="text-muted flex justify-between">
+                  <span>Sunday</span>
+                  <span>Closed</span>
+                </p>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Contact Form */}
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            viewport={{ once: true }}
+            className="bg-cardBg p-8 rounded-2xl shadow-card"
+          >
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* Name Input */}
+                <div className="col-span-1">
+                  <label 
+                    htmlFor="name" 
+                    className="block text-white font-medium mb-2"
+                  >
+                    Full Name
+                  </label>
+                  <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleInputChange}
+                    required
+                    className="w-full bg-darkBackground border border-muted text-white py-3 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-300"
+                    placeholder="John Doe"
+                  />
+                </div>
+
+                {/* Email Input */}
+                <div className="col-span-1">
+                  <label 
+                    htmlFor="email" 
+                    className="block text-white font-medium mb-2"
+                  >
+                    Email Address
+                  </label>
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleInputChange}
+                    required
+                    className="w-full bg-darkBackground border border-muted text-white py-3 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-300"
+                    placeholder="john@example.com"
+                  />
+                </div>
+              </div>
+
+              {/* Message Input */}
+              <div>
+                <label 
+                  htmlFor="message" 
+                  className="block text-white font-medium mb-2"
+                >
+                  Your Message
+                </label>
+                <textarea
+                  id="message"
+                  name="message"
+                  value={formData.message}
+                  onChange={handleInputChange}
+                  required
+                  className="w-full bg-darkBackground border border-muted text-white py-3 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-300 min-h-[150px]"
+                  placeholder="Tell us about your project..."
+                />
+              </div>
+
+              {/* Submit Button */}
+              <div className="pt-4">
+                <motion.button
+                  type="submit"
+                  disabled={isSubmitting}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="w-full bg-gradient-to-r from-primary-700 to-primary-500 text-white font-semibold py-4 px-6 rounded-lg shadow-button hover:shadow-glow transition-all duration-300 flex items-center justify-center"
+                >
+                  {isSubmitting ? (
+                    <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                  ) : (
+                    <FaPaperPlane className="mr-3" />
+                  )}
+                  {isSubmitting ? 'Sending...' : 'Send Message'}
+                </motion.button>
+              </div>
+            </form>
+          </motion.div>
         </div>
       </div>
     </section>

@@ -1,6 +1,6 @@
+import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa";
-import { motion } from "framer-motion";
 
 const faqs = [
   {
@@ -18,6 +18,10 @@ const faqs = [
   {
     question: "What is your typical project timeline?",
     answer: "The timeline depends on the project scope, but typically, a basic website can take between 2-4 weeks, and larger projects may take longer."
+  },
+  {
+    question: "What technologies do you work with?",
+    answer: "We specialize in modern stacks including React, Next.js, Node.js, Tailwind CSS, and various CMS platforms like WordPress and Shopify."
   }
 ];
 
@@ -29,64 +33,112 @@ export default function Faqs() {
   };
 
   return (
-    <div className="faq-section py-12 bg-[rgb(61,15,65)] text-white">
-      <div className="max-w-4xl mx-auto text-center">
-        <motion.h2
-          className="text-3xl font-bold mb-6"
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-        >
-          Frequently Asked Questions
-        </motion.h2>
-
-        {/* FAQ list with Framer Motion for item animation */}
+    <section className="py-20 px-4 bg-darkBackground" id="faqs">
+      <div className="max-w-6xl mx-auto">
+        {/* Section Header */}
         <motion.div
-          className="space-y-6"
+          className="text-center mb-16"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          viewport={{ once: true }}
+        >
+          <h2 className="text-3xl md:text-4xl font-bold font-heading text-primary-500 mb-4">
+            Frequently Asked Questions
+          </h2>
+          <p className="text-muted max-w-2xl mx-auto text-lg">
+            Find answers to common questions about our services and processes
+          </p>
+        </motion.div>
+
+        {/* FAQ Items */}
+        <motion.div
+          className="max-w-3xl mx-auto space-y-4"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+          viewport={{ once: true }}
         >
           {faqs.map((faq, index) => (
-            <div
+            <motion.div
               key={index}
-              className="faq-item bg-white bg-opacity-20 p-6 rounded-lg shadow-md"
+              className="overflow-hidden rounded-xl bg-cardBg shadow-card"
+              whileHover={{ scale: 1.02 }}
+              transition={{ type: "spring", stiffness: 400, damping: 10 }}
             >
-              <motion.div
-                className="flex justify-between items-center cursor-pointer"
+              <button
                 onClick={() => toggleAnswer(index)}
-                whileHover={{ scale: 1.05 }}
-                transition={{ type: "spring", stiffness: 300 }}
+                className="w-full flex justify-between items-center p-6 text-left focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-cardBg rounded-xl"
+                aria-expanded={activeIndex === index}
+                aria-controls={`faq-answer-${index}`}
               >
-                <h3 className="text-xl font-semibold">{faq.question}</h3>
-                {activeIndex === index ? (
-                  <FaChevronUp size={24} className="text-white" />
-                ) : (
-                  <FaChevronDown size={24} className="text-white" />
-                )}
-              </motion.div>
+                <h3 className="text-lg md:text-xl font-semibold text-white">
+                  {faq.question}
+                </h3>
+                <motion.div
+                  animate={{ rotate: activeIndex === index ? 180 : 0 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  {activeIndex === index ? (
+                    <FaChevronUp className="text-primary-500 text-xl" />
+                  ) : (
+                    <FaChevronDown className="text-muted text-xl" />
+                  )}
+                </motion.div>
+              </button>
 
-              {/* Dropdown answer section with Framer Motion */}
-              <motion.div
-                className="mt-4"
-                initial={{ opacity: 0, y: -10 }}
-                animate={{
-                  opacity: activeIndex === index ? 1 : 0,
-                  y: activeIndex === index ? 0 : -10,
-                }}
-                transition={{
-                  duration: 0.4,
-                  ease: "easeOut",
-                  type: "spring",
-                  stiffness: 300,
-                }}
-              >
-                {activeIndex === index && <p className="text-lg">{faq.answer}</p>}
-              </motion.div>
-            </div>
+              <AnimatePresence>
+                {activeIndex === index && (
+                  <motion.div
+                    id={`faq-answer-${index}`}
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{
+                      height: "auto",
+                      opacity: 1,
+                      transition: {
+                        height: { duration: 0.4, ease: "easeOut" },
+                        opacity: { duration: 0.3, delay: 0.1 }
+                      }
+                    }}
+                    exit={{
+                      height: 0,
+                      opacity: 0,
+                      transition: {
+                        height: { duration: 0.3 },
+                        opacity: { duration: 0.2 }
+                      }
+                    }}
+                    className="px-6 pb-6"
+                  >
+                    <div className="prose prose-invert text-muted">
+                      <p>{faq.answer}</p>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </motion.div>
           ))}
         </motion.div>
+
+        {/* CTA Section */}
+        <motion.div
+          className="mt-16 text-center"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+          viewport={{ once: true }}
+        >
+          <p className="text-lg text-muted mb-6">
+            Still have questions? We&apos;d love to help.
+          </p>
+          <a
+            href="#contact"
+            className="inline-block bg-primary-500 hover:bg-primary-700 text-white font-medium py-3 px-8 rounded-lg shadow-button hover:shadow-glow transition-all duration-300"
+          >
+            Contact Us
+          </a>
+        </motion.div>
       </div>
-    </div>
+    </section>
   );
 }

@@ -1,6 +1,15 @@
 import { motion } from 'framer-motion';
 import { useState } from 'react';
-import { FaBriefcase, FaChartLine, FaDesktop, FaHeart, FaHome, FaNewspaper, FaShoppingCart, FaWordpress } from 'react-icons/fa';
+import {
+  FaBriefcase,
+  FaChartLine,
+  FaDesktop,
+  FaHeart,
+  FaHome,
+  FaNewspaper,
+  FaShoppingCart,
+  FaWordpress
+} from 'react-icons/fa';
 import bakingoimg from '../../assets/portfolio/Bakingo.png';
 import arcelormittalimg from '../../assets/portfolio/Business/ArcelorMittal.png';
 import autolivimg from '../../assets/portfolio/Business/AutoLiv.png';
@@ -33,7 +42,6 @@ import thebromaimg from '../../assets/portfolio/WordPress/TheBroma.png';
 import thechocolateroomimg from '../../assets/portfolio/WordPress/TheChocolateRoom.png';
 import treedoctorusaimg from '../../assets/portfolio/WordPress/TreeDoctorUSA.png';
 import treeservicesmarketingimg from '../../assets/portfolio/WordPress/TreeServicesMarketing.png';
-
 
 const PortfolioSection = () => {
   const categories = [
@@ -252,79 +260,130 @@ const PortfolioSection = () => {
   projects.business = projects.all.filter(p => p.category === "Business");
   projects.matrimonial = projects.all.filter(p => p.category === "Matrimonial");
 
-  const [activeCategory, setActiveCategory] = useState('wordpress');
+  const [activeCategory, setActiveCategory] = useState('ecommerce');
   const [hoveredProject, setHoveredProject] = useState(null);
 
   return (
-    <section className="pt-24 pb-16 bg-gradient-to-br from-[#1a0b2e] to-[#2f1c4a]">
-      <div className="container mx-auto px-4">
+    <section id="portfolio" className="py-20 bg-darkBackground">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Section Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-10"
+          viewport={{ once: true }}
+          className="text-center mb-12 lg:mb-16"
         >
-          <h2 className="text-3xl md:text-5xl font-bold text-white mb-4">
-            Our Latest Work
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4 font-heading">
+            Our <span className="text-primary-500">Portfolio</span> 
           </h2>
-          <p className="text-gray-300 max-w-2xl mx-auto text-base md:text-lg">
-            Explore our portfolio of successful projects that showcase our expertise in creating innovative digital solutions.
+          <p className="text-muted max-w-3xl mx-auto text-base md:text-lg">
+            Showcasing our expertise in building high-performance online stores and digital marketplaces.
           </p>
         </motion.div>
 
-        {/* Categories */}
+        {/* Category Filter */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="flex flex-wrap justify-center gap-3 sm:gap-4 mb-10"
+          viewport={{ once: true }}
+          className="mb-12 lg:mb-16 overflow-x-auto pb-2"
         >
-          {categories.map((category) => (
-            <button
-              key={category.id}
-              onClick={() => setActiveCategory(category.id)}
-              className={`flex items-center space-x-2 px-4 sm:px-6 py-2 sm:py-3 rounded-full text-sm sm:text-base transition-all duration-300 ${
-                activeCategory === category.id
-                  ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg scale-105'
-                  : 'bg-white/10 text-gray-300 hover:bg-white/20'
-              }`}
-            >
-              <span className="text-base sm:text-xl">{category.icon}</span>
-              <span>{category.label}</span>
-            </button>
-          ))}
+          <div className="flex flex-nowrap justify-start md:justify-center gap-2 min-w-max">
+            {categories.map((category) => (
+              <motion.button
+                key={category.id}
+                onClick={() => setActiveCategory(category.id)}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className={`flex items-center space-x-2 px-4 py-2 rounded-full text-sm sm:text-base transition-all duration-300 whitespace-nowrap ${
+                  activeCategory === category.id
+                    ? 'bg-primary-500 text-darkBackground shadow-button hover:bg-primary-700'
+                    : 'bg-cardBg text-white hover:bg-cardBg/80'
+                }`}
+                aria-label={`Filter by ${category.label}`}
+              >
+                <span className="text-base">{category.icon}</span>
+                <span>{category.label}</span>
+              </motion.button>
+            ))}
+          </div>
         </motion.div>
 
         {/* Portfolio Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 0.5 }}
+          viewport={{ once: true }}
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
+        >
           {projects[activeCategory].map((project, index) => (
             <motion.div
-              key={index}
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="relative group"
+              key={`${activeCategory}-${index}`}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: index * 0.05 }}
+              viewport={{ once: true, margin: "-50px" }}
+              className="group relative"
+              whileHover={{ y: -5 }}
               onMouseEnter={() => setHoveredProject(index)}
               onMouseLeave={() => setHoveredProject(null)}
             >
-              <div className="relative overflow-hidden rounded-lg aspect-video">
+              <div className="relative overflow-hidden rounded-xl aspect-video shadow-card hover:shadow-glow transition-all duration-300">
                 <img
                   src={project.image}
                   alt={project.title}
-                  className="w-full h-full object-cover transition-transform duration-300 transform group-hover:scale-110"
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  loading="lazy"
                 />
-                <div
-                  className={`absolute inset-0 bg-black/70 flex flex-col justify-center items-center text-white p-4 opacity-0 transition-opacity duration-300 ${
-                    hoveredProject === index ? 'opacity-100' : ''
-                  }`}
-                >
-                  <h3 className="text-lg md:text-xl font-bold mb-1">{project.title}</h3>
-                  <p className="text-xs md:text-sm">{project.tech.join(' • ')}</p>
+                
+                {/* Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-darkBackground/90 via-darkBackground/30 to-transparent flex flex-col justify-end p-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <motion.div
+                    initial={{ y: 20 }}
+                    animate={{ y: hoveredProject === index ? 0 : 20 }}
+                    transition={{ duration: 0.3 }}
+                    className="transform"
+                  >
+                    <h3 className="text-xl font-bold text-white mb-1">{project.title}</h3>
+                    <p className="text-primary-300 text-sm mb-3 font-medium">{project.category}</p>
+                    <div className="flex flex-wrap gap-2">
+                      {project.tech.map((tech, i) => (
+                        <span 
+                          key={i} 
+                          className="text-xs bg-primary-900/50 text-primary-300 px-2 py-1 rounded"
+                        >
+                          {tech}
+                        </span>
+                      ))}
+                    </div>
+                  </motion.div>
                 </div>
               </div>
             </motion.div>
           ))}
-        </div>
+        </motion.div>
+
+        {/* View More Button */}
+        {projects[activeCategory].length > 6 && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ duration: 0.5 }}
+            viewport={{ once: true }}
+            className="text-center mt-12"
+          >
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="px-8 py-3 bg-primary-500 text-darkBackground font-medium rounded-lg hover:bg-primary-700 transition-colors shadow-button hover:shadow-glow"
+            >
+              View More Projects
+            </motion.button>
+          </motion.div>
+        )}
       </div>
     </section>
   );

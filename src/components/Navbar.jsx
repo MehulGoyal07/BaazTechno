@@ -1,159 +1,135 @@
-import { useState } from 'react';
-import { FaBriefcase, FaHome, FaPhoneAlt, FaServicestack, FaUserAlt } from 'react-icons/fa';
+import { useEffect, useState } from 'react';
+import { FaBars, FaBriefcase, FaHome, FaPhoneAlt, FaServicestack, FaTimes, FaUserAlt } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
-import heroBg from '../assets/bg/hero_bg.png';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
-  const handleHomeClick = () => {
-    setIsOpen(false);
-    window.location.href = "/";
-  };
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 10);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const navLinks = [
+    { to: "/", icon: <FaHome />, text: "Home" },
+    { to: "/services", icon: <FaServicestack />, text: "Services" },
+    { to: "/about", icon: <FaUserAlt />, text: "About" },
+    { to: "/portfolio", icon: <FaBriefcase />, text: "Portfolio" },
+    { to: "/contact", icon: <FaPhoneAlt />, text: "Contact" },
+  ];
 
   return (
-    <header
-      className="fixed top-0 w-full bg-cover bg-center flex items-center z-50 shadow-md"
-      style={{ backgroundImage: `url(${heroBg})` }}
-    >
-      <div className="container mx-auto px-6 flex justify-between items-center h-16">
-        {/* Left: Logo */}
-        <div className="text-2xl font-bold">
-          <Link to="/" onClick={handleHomeClick} className="flex items-center">
-            <span className="text-yellow-400">Baaz</span>
-            <span className="text-white">Techno</span>
-          </Link>
-        </div>
-
-        {/* Mobile Menu Icon */}
-        <div className="md:hidden">
-          <button
-            onClick={() => setIsOpen(!isOpen)}
-            className="text-white focus:outline-none"
+    <header className={`fixed top-0 w-full z-50 transition-all duration-300 ${scrolled ? 'bg-cardBg shadow-navbar' : 'bg-darkBackground/90 backdrop-blur-sm'}`}>
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-20">
+          {/* Logo */}
+          <Link 
+            to="/" 
+            className="flex items-center group"
+            onClick={() => setIsOpen(false)}
           >
-            <svg
-              className="w-6 h-6"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
+            <span className="text-primary-500 font-heading text-2xl md:text-3xl font-bold group-hover:text-primary-300 transition-colors">
+              Baaz
+            </span>
+            <span className="text-white font-heading text-2xl md:text-3xl font-bold group-hover:text-muted transition-colors">
+              Techno
+            </span>
+          </Link>
+
+          {/* Desktop Navigation */}
+          <nav className="hidden md:flex items-center space-x-8">
+            <ul className="flex space-x-6">
+              {navLinks.map((link) => (
+                <li key={link.text}>
+                  <Link
+                    to={link.to}
+                    className="flex items-center space-x-2 text-white hover:text-primary-500 transition-colors font-medium"
+                  >
+                    <span className="text-primary-500">{link.icon}</span>
+                    <span>{link.text}</span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+
+            <a
+              href="mailto:baaztechno@gmail.com"
+              className="ml-6 px-5 py-2.5 rounded-full bg-primary-500 text-darkBackground font-medium hover:bg-primary-300 hover:shadow-button transition-all duration-300 flex items-center"
+            >
+              Contact Us
+              <span className="hidden lg:inline ml-2">baaztechno@gmail.com</span>
+            </a>
+          </nav>
+
+          {/* Mobile menu button */}
+          <div className="md:hidden flex items-center">
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              className="inline-flex items-center justify-center p-2 rounded-md text-white hover:text-primary-500 focus:outline-none transition-colors"
+              aria-label="Toggle menu"
             >
               {isOpen ? (
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M6 18L18 6M6 6l12 12"
-                />
+                <FaTimes className="h-6 w-6" />
               ) : (
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M4 6h16M4 12h16M4 18h16"
-                />
+                <FaBars className="h-6 w-6" />
               )}
-            </svg>
-          </button>
-        </div>
-
-        {/* Center: Nav Links */}
-        <div className="hidden md:flex space-x-6 text-white text-lg items-center">
-          <Link
-            to="/" onClick={handleHomeClick}
-            className="flex items-center space-x-2 hover:text-yellow-500 transition"
-          >
-            <FaHome />
-            <span>Home</span>
-          </Link>
-          <Link
-            to="/services"
-            className="flex items-center space-x-2 hover:text-yellow-500 transition"
-          >
-            <FaServicestack />
-            <span>Services</span>
-          </Link>
-          <Link
-            to="/about"
-            className="flex items-center space-x-2 hover:text-yellow-500 transition"
-          >
-            <FaUserAlt />
-            <span>About</span>
-          </Link>
-          <Link
-            to="/portfolio"
-            className="flex items-center space-x-2 hover:text-yellow-500 transition"
-          >
-            <FaBriefcase />
-            <span>Portfolio</span>
-          </Link>
-          <Link
-            to="/contact"
-            className="flex items-center space-x-2 hover:text-yellow-500 transition"
-          >
-            <FaPhoneAlt />
-            <span>Contact</span>
-          </Link>
-        </div>
-
-        {/* Right: Contact Info */}
-        <div className="hidden md:flex items-center">
-          <a
-            href="mailto:baaztechno@gmail.com?subject=Enquiry&body=Hello!I want to discuss something!"
-            className="bg-yellow-400 text-gray-900 px-4 py-2 rounded-full font-medium hover:bg-yellow-300 transition duration-300"
-          >
-            Contact Us : baaztechno@gmail.com
-          </a>
+            </button>
+          </div>
         </div>
       </div>
 
-      {/* Sidebar for mobile */}
+      {/* Mobile Navigation */}
       <div
-        className={`fixed top-0 left-0 h-full w-2/3 bg-gray-900 text-white transform ${
+        className={`md:hidden fixed inset-0 z-40 transform ${
           isOpen ? 'translate-x-0' : '-translate-x-full'
-        } transition-transform duration-300 ease-in-out z-50 md:hidden`}
+        } transition-transform duration-300 ease-in-out`}
       >
-        <nav className="flex flex-col space-y-6 text-lg p-8">
-          <Link
-            to="/"
-            className="flex items-center space-x-2 hover:text-yellow-500 transition"
-            onClick={() => setIsOpen(false)}
-          >
-            <FaHome />
-            <span>Home</span>
-          </Link>
-          <Link
-            to="/services"
-            className="flex items-center space-x-2 hover:text-yellow-500 transition"
-            onClick={() => setIsOpen(false)}
-          >
-            <FaServicestack />
-            <span>Services</span>
-          </Link>
-          <Link
-            to="/about"
-            className="flex items-center space-x-2 hover:text-yellow-500 transition"
-            onClick={() => setIsOpen(false)}
-          >
-            <FaUserAlt />
-            <span>About</span>
-          </Link>
-          <Link
-            to="/portfolio"
-            className="flex items-center space-x-2 hover:text-yellow-500 transition"
-            onClick={() => setIsOpen(false)}
-          >
-            <FaBriefcase />
-            <span>Portfolio</span>
-          </Link>
-          <Link
-            to="/contact"
-            className="flex items-center space-x-2 hover:text-yellow-500 transition"
-            onClick={() => setIsOpen(false)}
-          >
-            <FaPhoneAlt />
-            <span>Contact</span>
-          </Link>
-        </nav>
+        <div className="fixed inset-0 bg-black/50" onClick={() => setIsOpen(false)}></div>
+        <div className="relative w-4/5 max-w-xs h-full bg-cardBg shadow-xl">
+          <div className="flex flex-col h-full overflow-y-auto">
+            <div className="px-6 pt-10 pb-4 border-b border-gray-700">
+              <Link 
+                to="/" 
+                className="flex items-center"
+                onClick={() => setIsOpen(false)}
+              >
+                <span className="text-primary-500 font-heading text-2xl font-bold">Baaz</span>
+                <span className="text-white font-heading text-2xl font-bold">Techno</span>
+              </Link>
+            </div>
+
+            <nav className="px-6 py-6 flex-1">
+              <ul className="space-y-6">
+                {navLinks.map((link) => (
+                  <li key={link.text}>
+                    <Link
+                      to={link.to}
+                      className="flex items-center space-x-3 text-white hover:text-primary-500 transition-colors text-lg"
+                      onClick={() => setIsOpen(false)}
+                    >
+                      <span className="text-primary-500">{link.icon}</span>
+                      <span>{link.text}</span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+
+            <div className="px-6 py-6 border-t border-gray-700">
+              <a
+                href="mailto:baaztechno@gmail.com"
+                className="w-full block px-4 py-3 text-center rounded-full bg-primary-500 text-darkBackground font-medium hover:bg-primary-300 transition-colors"
+                onClick={() => setIsOpen(false)}
+              >
+                Contact Us
+              </a>
+            </div>
+          </div>
+        </div>
       </div>
     </header>
   );

@@ -1,128 +1,134 @@
-import AOS from 'aos';
-import 'aos/dist/aos.css';
-import { motion } from 'framer-motion';
-import { useEffect } from 'react';
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
-import { Autoplay, Navigation, Pagination } from 'swiper/modules';
-import { Swiper, SwiperSlide } from 'swiper/react';
+import { FaQuoteLeft, FaStar } from 'react-icons/fa';
 import divyanshuimg from '../../../assets/Testimonials/Divyanshu.jpg';
 import nikunjvermaimg from '../../../assets/Testimonials/Nikunj_Verma.jpg';
 import pratikmunderimg from '../../../assets/Testimonials/Pratik_Munder.jpg';
 import vipulsharmaimg from '../../../assets/Testimonials/Vipul_Sharma.jpg';
-const TestimonialsSection = () => {
-  // Initialize AOS
-  useEffect(() => {
-    AOS.init({
-      duration: 1000,
-      once: true,
-    });
-  }, []);
 
+const TestimonialsSection = () => {
   // Testimonial data
   const testimonials = [
     {
       name: 'Divyanshu',
       location: 'Rajasthan, India',
       text: 'Working with BaazTechno on our Shopify store was a game-changer! They delivered a sleek, high-performing e-commerce site that boosted our sales. Their attention to detail and quick turnaround made the entire process stress-free.',
-      image: vipulsharmaimg, // Replace with actual image URL
+      image: vipulsharmaimg,
       rating: 5,
+      featured: true
     },
     {
       name: 'Vipul Sharma',
       location: 'Pune, India',
-      text: 'BaazTechno developed a custom React-based race bib management dashboard for us, and it’s been a lifesaver! The system is intuitive, efficient, and has streamlined our operations. Their technical skills and dedication are unmatched. Highly recommend!',
-      image: divyanshuimg, // Replace with actual image URL
-      rating: 4.5,
+      text: 'BaazTechno developed a custom React-based race bib management dashboard for us, and it\'s been a lifesaver! The system is intuitive, efficient, and has streamlined our operations.',
+      image: divyanshuimg,
+      rating: 4.5
     },
     {
       name: 'Nikunj Verma',
       location: 'Zurich, Switzerland',
-      text: 'BaazTechno transformed our outdated website into a modern, user-friendly platform. Their WordPress expertise ensured seamless functionality and stunning design. Highly recommend their team for anyone looking to elevate their online presence!',
-      image: nikunjvermaimg, // Replace with actual image URL
-      rating: 5,
+      text: 'BaazTechno transformed our outdated website into a modern, user-friendly platform. Their WordPress expertise ensured seamless functionality and stunning design.',
+      image: nikunjvermaimg,
+      rating: 5
     },
     {
       name: 'Pratik Munder',
       location: 'Pune, India',
-      text: 'BaazTechno built our e-commerce platform from scratch, and the results have been phenomenal. The site is fast, secure, and easy to manage. Their team went above and beyond to ensure our business needs were met. Truly exceptional service!',
-      image: pratikmunderimg, // Replace with actual image URL
-      rating: 4,
+      text: 'BaazTechno built our e-commerce platform from scratch, and the results have been phenomenal. The site is fast, secure, and easy to manage.',
+      image: pratikmunderimg,
+      rating: 4
     },
   ];
 
   return (
-    <section
-      className="py-20 px-5 bg-cover bg-center text-white"
-      style={{
-        background: 'linear-gradient(45deg, #261447 0%, #431a6d 100%)',
-      }}
-      data-aos="fade-up"
-    >
-      <h2 className="text-4xl font-bold text-center mb-12" data-aos="fade-up">
-        What Our Clients Say
-      </h2>
+    <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-darkBackground to-cardBg">
+      <div className="max-w-7xl mx-auto">
+        <h2 className="text-3xl sm:text-4xl font-bold text-center mb-6 text-white">
+          What Our <span className="text-primary-500">Clients Say</span>
+        </h2>
+        <p className="text-muted text-center max-w-2xl mx-auto mb-12 text-lg">
+          Don&apos;t just take our word for it - hear from businesses we&apos;ve transformed
+        </p>
 
-      {/* Swiper Slider */}
-      <motion.div
-        initial={{ opacity: 0, y: 50 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
-        viewport={{ once: true }}
-      >
-        <Swiper
-          spaceBetween={30}
-          centeredSlides={true}
-          autoplay={{
-            delay: 3000,
-            disableOnInteraction: false,
-          }}
-          pagination={{
-            clickable: true,
-          }}
-          navigation={true}
-          modules={[Autoplay, Pagination, Navigation]}
-          className="mySwiper"
-          data-aos="fade-up"
-        >
-          {testimonials.map((testimonial, index) => (
-            <SwiperSlide key={index}>
-              <motion.div
-                className="min-w-[300px] mx-4 bg-white text-black rounded-xl shadow-2xl p-8 flex flex-col items-center transform transition-all hover:scale-105"
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.5, delay: index * 0.2 }}
-                viewport={{ once: true }}
-              >
-                <img
-                  src={testimonial.image}
-                  alt={testimonial.name}
-                  className="w-24 h-24 rounded-full mb-4 border-4 border-purple-500 shadow-lg"
-                />
-                <h4 className="font-semibold text-2xl mb-2">{testimonial.name}</h4>
-                <p className="text-sm text-gray-600 mb-4">{testimonial.location}</p>
-                <div className="flex mb-4">
-                  {Array.from({ length: 5 }, (_, i) => (
-                    <svg
-                      key={i}
-                      className={`w-6 h-6 ${
-                        i < testimonial.rating ? 'text-yellow-400' : 'text-gray-300'
-                      }`}
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                    </svg>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {/* Featured Testimonial (larger card) */}
+          <div className="md:col-span-2 lg:row-span-2 bg-cardBg rounded-2xl p-8 shadow-glow hover:shadow-primary-500/30 transition-all duration-300 group">
+            <div className="flex items-start space-x-4 mb-6">
+              <img 
+                src={testimonials[0].image} 
+                alt={testimonials[0].name} 
+                className="w-16 h-16 rounded-full border-2 border-primary-500 object-cover"
+                loading="lazy"
+              />
+              <div>
+                <h4 className="text-xl font-bold text-white">{testimonials[0].name}</h4>
+                <p className="text-muted text-sm">{testimonials[0].location}</p>
+                <div className="flex mt-1">
+                  {[...Array(5)].map((_, i) => (
+                    <FaStar 
+                      key={i} 
+                      className={`${i < testimonials[0].rating ? 'text-primary-500' : 'text-muted/30'} w-4 h-4`} 
+                    />
                   ))}
                 </div>
-                <p className="text-lg italic text-center text-gray-800">{`"${testimonial.text}"`}</p>
-              </motion.div>
-            </SwiperSlide>
+              </div>
+            </div>
+            <FaQuoteLeft className="text-primary-500/20 text-5xl mb-4" />
+            <p className="text-white text-lg italic relative z-10">
+              &quot;{testimonials[0].text}&quot;
+            </p>
+          </div>
+
+          {/* Regular testimonials */}
+          {testimonials.slice(1).map((testimonial, index) => (
+            <div 
+              key={index} 
+              className="bg-cardBg rounded-2xl p-6 shadow-card hover:shadow-primary-500/20 transition-all duration-300 group"
+            >
+              <div className="flex items-center space-x-4 mb-4">
+                <img 
+                  src={testimonial.image} 
+                  alt={testimonial.name} 
+                  className="w-12 h-12 rounded-full border-2 border-primary-500 object-cover"
+                  loading="lazy"
+                />
+                <div>
+                  <h4 className="text-lg font-semibold text-white">{testimonial.name}</h4>
+                  <p className="text-muted text-xs">{testimonial.location}</p>
+                </div>
+              </div>
+              <div className="flex mb-3">
+                {[...Array(5)].map((_, i) => (
+                  <FaStar 
+                    key={i} 
+                    className={`${i < testimonial.rating ? 'text-primary-500' : 'text-muted/30'} w-4 h-4`} 
+                  />
+                ))}
+              </div>
+              <p className="text-muted text-sm italic">
+                &quot;{testimonial.text.length > 120 ? `${testimonial.text.substring(0, 120)}...` : testimonial.text}&quot;
+              </p>
+            </div>
           ))}
-        </Swiper>
-      </motion.div>
+        </div>
+
+        {/* Trust indicators */}
+        <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+          {[
+            { value: "100%", label: "Client Satisfaction" },
+            { value: "50+", label: "Projects Completed" },
+            { value: "24/7", label: "Support Available" },
+            { value: "5★", label: "Average Rating" },
+          ].map((item, index) => (
+            <div key={index} className="p-4">
+              <div className="text-primary-500 text-3xl font-bold mb-2 animate-pulse-slow">
+                {item.value}
+              </div>
+              <div className="text-muted text-sm uppercase tracking-wider">
+                {item.label}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
     </section>
   );
 };

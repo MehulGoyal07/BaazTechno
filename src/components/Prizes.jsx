@@ -1,94 +1,170 @@
-import { motion } from 'framer-motion'; // Import Framer Motion
+import { motion } from 'framer-motion';
 
 const PricingSection = () => {
+  const plans = [
+    {
+      name: "Starter",
+      price: "₹15,000",
+      popular: false,
+      features: [
+        "5 Page Website",
+        "Mobile Responsive",
+        "Basic SEO Setup",
+        "Contact Form",
+        "1 Month Support",
+        "Free Domain (1 Year)*"
+      ],
+      cta: "Start with Starter"
+    },
+    {
+      name: "Business",
+      price: "₹35,000",
+      popular: true,
+      features: [
+        "15 Page Website",
+        "Advanced SEO",
+        "CMS Integration",
+        "WhatsApp Integration",
+        "3 Months Support",
+        "Free Hosting (1 Year)",
+        "Google My Business Setup"
+      ],
+      cta: "Choose Business"
+    },
+    {
+      name: "Premium",
+      price: "₹75,000",
+      popular: false,
+      features: [
+        "Unlimited Pages",
+        "E-commerce Ready",
+        "Payment Gateway Setup",
+        "Multi-language Support",
+        "6 Months Support",
+        "Social Media Integration",
+        "Monthly Analytics Report"
+      ],
+      cta: "Go Premium"
+    }
+  ];
+
   return (
-    <motion.section
-      className="py-16 px-5"
-      style={{
-        background: 'linear-gradient(45deg, #261447 0%, #431a6d 100%)',
-      }}
-      whileInView={{ opacity: 1 }}  // When the section enters the viewport
-      initial={{ opacity: 0 }}     // Initial state is opacity 0
+    <motion.section 
+      id="pricing"
+      className="py-16 px-4 sm:px-6 lg:px-8 bg-darkBackground"
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
       transition={{ duration: 0.8 }}
-      viewport={{ once: false }}   // This ensures the animation happens every time the section comes into view
+      viewport={{ once: true, margin: "-100px" }}
     >
-      <div className="max-w-screen-xl mx-auto text-center mb-12">
-        <h2 className="text-4xl font-bold text-white mb-4">Our Pricing Plans</h2>
-        <p className="text-white">
-          Choose a plan that suits your needs. We offer affordable, feature-packed solutions for different types of websites.
-        </p>
-      </div>
+      <div className="max-w-7xl mx-auto">
+        {/* Section Header */}
+        <div className="text-center mb-16">
+          <motion.h2 
+            className="text-3xl sm:text-4xl md:text-5xl font-bold text-primary-500 mb-4 font-heading"
+            initial={{ y: 20, opacity: 0 }}
+            whileInView={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.6 }}
+          >
+            Affordable Plans for Indian Businesses
+          </motion.h2>
+          <motion.p
+            className="text-lg text-muted max-w-3xl mx-auto"
+            initial={{ y: 20, opacity: 0 }}
+            whileInView={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+          >
+            Choose a plan tailored for Indian SMEs and startups with UPI payment options and GST invoicing included.
+          </motion.p>
+        </div>
 
-      {/* Pricing Cards */}
-      <div className="flex flex-col lg:flex-row justify-center items-center gap-8">
-        {/* Basic Plan */}
-        <motion.div
-          className="bg-gradient-to-b from-[#FFDEE9] to-[#B5FFFC] shadow-lg rounded-lg p-8 w-full max-w-sm lg:max-w-xs"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}   // Animate every time the card enters the viewport
-          transition={{ duration: 0.6, delay: 0.2 }}
-          viewport={{ once: false }}
-        >
-          <h3 className="text-2xl font-semibold text-[#7436bb] mb-4">Basic Website</h3>
-          <p className="text-4xl font-bold text-gray-800 mb-6">₹20,000</p>
-          <ul className="text-left mb-6">
-            <li className="text-gray-700 mb-2">✔️ 5 Pages</li>
-            <li className="text-gray-700 mb-2">✔️ Basic SEO</li>
-            <li className="text-gray-700 mb-2">✔️ Responsive Design</li>
-            <li className="text-gray-700 mb-2">✔️ Contact Form</li>
-          </ul>
-          <div className="flex justify-center">
-            <button className="py-2 px-6 bg-[#7436bb] text-white rounded-lg font-semibold transition duration-300 hover:bg-[#5a2a94] shadow-md">
-              Get Started
-            </button>
-          </div>
-        </motion.div>
+        {/* Pricing Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12">
+          {plans.map((plan, index) => (
+            <motion.div
+              key={plan.name}
+              className={`relative rounded-2xl p-8 bg-cardBg ${plan.popular ? 'border-2 border-primary-500' : 'border border-gray-700'}`}
+              initial={{ y: 50, opacity: 0 }}
+              whileInView={{ y: 0, opacity: 1 }}
+              transition={{ duration: 0.5, delay: index * 0.15 }}
+              viewport={{ once: true, margin: "-50px" }}
+              whileHover={{ y: -5 }}
+            >
+              {/* Popular badge */}
+              {plan.popular && (
+                <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-primary-500 text-darkBackground px-4 py-1 rounded-full text-sm font-semibold shadow-button">
+                  Most Popular
+                </div>
+              )}
 
-        {/* Standard Plan (Highlighted, Slightly Larger) */}
-        <motion.div
-          className="bg-gradient-to-b from-[#FFF1C1] to-[#FFD8B0] shadow-lg rounded-lg p-10 w-full max-w-sm lg:max-w-md transform scale-105"
+              <h3 className={`text-2xl font-bold mb-4 ${plan.popular ? 'text-primary-500' : 'text-white'}`}>
+                {plan.name}
+              </h3>
+              
+              <div className="mb-6">
+                <span className="text-4xl font-bold text-white">{plan.price}</span>
+                <span className="text-muted">/ one-time</span>
+              </div>
+
+              <ul className="space-y-3 mb-8">
+                {plan.features.map((feature) => (
+                  <li key={feature} className="flex items-start">
+                    <svg className="w-5 h-5 text-primary-500 mr-2 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+                    </svg>
+                    <span className="text-gray-300">{feature}</span>
+                  </li>
+                ))}
+              </ul>
+
+              <motion.button
+                className={`w-full py-3 px-6 rounded-xl font-semibold transition-all duration-300 ${
+                  plan.popular 
+                    ? 'bg-primary-500 text-darkBackground hover:bg-primary-700 shadow-button'
+                    : 'bg-gray-800 text-white hover:bg-gray-700'
+                }`}
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                {plan.cta}
+              </motion.button>
+
+              {index === 1 && (
+                <div className="mt-4 text-sm text-primary-300 text-center">
+                  GST Invoice Available
+                </div>
+              )}
+            </motion.div>
+          ))}
+        </div>
+
+        {/* Additional Indian-specific info */}
+        <motion.div 
+          className="mt-16 bg-cardBg rounded-xl p-6 sm:p-8 text-center"
           initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}   // Animate every time the card enters the viewport
+          whileInView={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.4 }}
-          viewport={{ once: false }}
         >
-          <h3 className="text-3xl font-semibold text-[#7436bb] mb-4">Standard Website</h3>
-          <p className="text-5xl font-bold text-gray-800 mb-6">₹35,000</p>
-          <ul className="text-left mb-6">
-            <li className="text-gray-700 mb-2">✔️ 10 Pages</li>
-            <li className="text-gray-700 mb-2">✔️ Advanced SEO</li>
-            <li className="text-gray-700 mb-2">✔️ Fully Responsive Design</li>
-            <li className="text-gray-700 mb-2">✔️ CMS Integration (WordPress)</li>
-            <li className="text-gray-700 mb-2">✔️ Custom Contact Forms</li>
-          </ul>
-          <div className="flex justify-center">
-            <button className="py-2 px-6 bg-[#7436bb] text-white rounded-lg font-semibold transition duration-300 hover:bg-[#5a2a94] shadow-md">
-              Get Started
-            </button>
-          </div>
-        </motion.div>
-
-        {/* Premium Plan */}
-        <motion.div
-          className="bg-gradient-to-b from-[#D9AFD9] to-[#97D9E1] shadow-lg rounded-lg p-8 w-full max-w-sm lg:max-w-xs"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}   // Animate every time the card enters the viewport
-          transition={{ duration: 0.6, delay: 0.6 }}
-          viewport={{ once: false }}
-        >
-          <h3 className="text-2xl font-semibold text-[#7436bb] mb-4">Premium Website</h3>
-          <p className="text-4xl font-bold text-gray-800 mb-6">₹60,000</p>
-          <ul className="text-left mb-6">
-            <li className="text-gray-700 mb-2">✔️ Unlimited Pages</li>
-            <li className="text-gray-700 mb-2">✔️ Advanced SEO & Analytics</li>
-            <li className="text-gray-700 mb-2">✔️ Custom Web Applications</li>
-            <li className="text-gray-700 mb-2">✔️ E-commerce Integration</li>
-            <li className="text-gray-700 mb-2">✔️ 24/7 Support</li>
-          </ul>
-          <div className="flex justify-center">
-            <button className="py-2 px-6 bg-[#7436bb] text-white rounded-lg font-semibold transition duration-300 hover:bg-[#5a2a94] shadow-md">
-              Get Started
-            </button>
+          <h3 className="text-xl font-semibold text-white mb-4">Special Offers for Indian Startups</h3>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-muted">
+            <div className="flex items-center justify-center">
+              <svg className="w-6 h-6 text-primary-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+              </svg>
+              UPI & EMI Payment Options
+            </div>
+            <div className="flex items-center justify-center">
+              <svg className="w-6 h-6 text-primary-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+              </svg>
+              Made in India Hosting
+            </div>
+            <div className="flex items-center justify-center">
+              <svg className="w-6 h-6 text-primary-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+              </svg>
+              Local Language Support
+            </div>
           </div>
         </motion.div>
       </div>

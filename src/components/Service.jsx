@@ -59,7 +59,7 @@ const ServicesPage = () => {
       title: "E-Commerce Solutions",
       description: "High-converting online stores with secure payment integrations.",
       features: [
-        "Shopify/WordPress WooCommerce",
+        "Shopify WooCommerce",
         "Payment gateway setup",
         "Inventory management",
         "Checkout optimization"

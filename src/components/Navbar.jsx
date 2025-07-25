@@ -5,13 +5,30 @@ import { Link } from 'react-router-dom';
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
 
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 10);
     };
+
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+      if (window.innerWidth >= 768) {
+        setIsOpen(false);
+      }
+    };
+
     window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener('resize', handleResize);
+    
+    // Initialize scroll state
+    handleScroll();
+    
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', handleResize);
+    };
   }, []);
 
   const navLinks = [
@@ -23,7 +40,7 @@ export default function Navbar() {
   ];
 
   return (
-    <header className={`fixed top-0 w-full z-50 transition-all duration-300 ${scrolled ? 'bg-cardBg shadow-navbar' : 'bg-darkBackground/90 backdrop-blur-sm'}`}>
+    <header className={`fixed top-0 w-full z-50 transition-all duration-300 ${scrolled || isMobile ? 'bg-cardBg shadow-navbar' : 'bg-darkBackground/90 backdrop-blur-sm'}`}>
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
@@ -47,10 +64,12 @@ export default function Navbar() {
                 <li key={link.text}>
                   <Link
                     to={link.to}
-                    className="flex items-center space-x-2 text-white hover:text-primary-500 transition-colors font-medium"
+                    className="flex items-center space-x-2 text-white hover:text-primary-500 transition-colors font-medium group"
                   >
-                    <span className="text-primary-500">{link.icon}</span>
-                    <span>{link.text}</span>
+                    <span className="text-primary-500 group-hover:scale-110 transition-transform">{link.icon}</span>
+                    <span className="relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-primary-500 after:transition-all after:duration-300 group-hover:after:w-full">
+                      {link.text}
+                    </span>
                   </Link>
                 </li>
               ))}
@@ -58,10 +77,12 @@ export default function Navbar() {
 
             <a
               href="mailto:baaztechno@gmail.com"
-              className="ml-6 px-5 py-2.5 rounded-full bg-primary-500 text-darkBackground font-medium hover:bg-primary-300 hover:shadow-button transition-all duration-300 flex items-center"
+              className="ml-6 px-5 py-2.5 rounded-full bg-primary-500 text-darkBackground font-medium hover:bg-primary-300 hover:shadow-lg transition-all duration-300 flex items-center group"
             >
-              Contact Us
-              <span className="hidden lg:inline ml-2">baaztechno@gmail.com</span>
+              <span>Contact Us</span>
+              <span className="hidden lg:inline ml-2 group-hover:translate-x-1 transition-transform">
+                baaztechno@gmail.com
+              </span>
             </a>
           </nav>
 
@@ -84,14 +105,17 @@ export default function Navbar() {
 
       {/* Mobile Navigation */}
       <div
-        className={`md:hidden fixed inset-0 z-1000 transform ${
+        className={`md:hidden fixed inset-0 z-40 transform ${
           isOpen ? 'translate-x-0' : '-translate-x-full'
         } transition-transform duration-300 ease-in-out`}
       >
-        <div className="fixed inset-0 bg-black/50" onClick={() => setIsOpen(false)}></div>
+        <div 
+          className="fixed inset-0 bg-black/50 backdrop-blur-sm" 
+          onClick={() => setIsOpen(false)}
+        />
         <div className="relative w-4/5 max-w-xs h-full bg-cardBg shadow-xl">
           <div className="flex flex-col h-full overflow-y-auto">
-            <div className="px-6 pt-10 pb-4 border-b border-gray-700">
+            <div className="px-6 pt-6 pb-4 border-b border-gray-700 flex justify-between items-center">
               <Link 
                 to="/" 
                 className="flex items-center"
@@ -100,6 +124,12 @@ export default function Navbar() {
                 <span className="text-primary-500 font-heading text-2xl font-bold">Baaz</span>
                 <span className="text-white font-heading text-2xl font-bold">Techno</span>
               </Link>
+              <button
+                onClick={() => setIsOpen(false)}
+                className="p-2 text-white hover:text-primary-500"
+              >
+                <FaTimes className="h-5 w-5" />
+              </button>
             </div>
 
             <nav className="px-6 py-6 flex-1">
@@ -108,11 +138,15 @@ export default function Navbar() {
                   <li key={link.text}>
                     <Link
                       to={link.to}
-                      className="flex items-center space-x-3 text-white hover:text-primary-500 transition-colors text-lg"
+                      className="flex items-center space-x-4 text-white hover:text-primary-500 transition-colors text-lg py-2 group"
                       onClick={() => setIsOpen(false)}
                     >
-                      <span className="text-primary-500">{link.icon}</span>
-                      <span>{link.text}</span>
+                      <span className="text-primary-500 group-hover:scale-125 transition-transform">
+                        {link.icon}
+                      </span>
+                      <span className="border-b border-transparent group-hover:border-primary-500 transition-all">
+                        {link.text}
+                      </span>
                     </Link>
                   </li>
                 ))}
@@ -122,10 +156,11 @@ export default function Navbar() {
             <div className="px-6 py-6 border-t border-gray-700">
               <a
                 href="mailto:baaztechno@gmail.com"
-                className="w-full block px-4 py-3 text-center rounded-full bg-primary-500 text-darkBackground font-medium hover:bg-primary-300 transition-colors"
+                className="w-full px-4 py-3 text-center rounded-full bg-primary-500 text-darkBackground font-medium hover:bg-primary-300 transition-colors flex items-center justify-center space-x-2"
                 onClick={() => setIsOpen(false)}
               >
-                Contact Us
+                <span>Contact Us</span>
+                <FaPhoneAlt className="text-sm" />
               </a>
             </div>
           </div>

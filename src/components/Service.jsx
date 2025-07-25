@@ -87,23 +87,6 @@ const ServicesPage = () => {
         </svg>
       ),
       cta: "Boost your traffic"
-    },
-    {
-      id: 6,
-      title: "Cloud Solutions",
-      description: "Scalable infrastructure to support your business growth.",
-      features: [
-        "AWS/Azure architecture",
-        "DevOps implementation",
-        "Database management",
-        "Serverless solutions"
-      ],
-      icon: (
-        <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" />
-        </svg>
-      ),
-      cta: "Modernize your stack"
     }
   ];
 
